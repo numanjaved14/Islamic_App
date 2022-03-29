@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:islamicapp/mainpage/duaandhadith.dart';
 import 'package:islamicapp/mainpage/prayertimes.dart';
 import 'package:islamicapp/mainpage/qibla.dart';
 import 'package:islamicapp/mainpage/qurans/quran.dart';
 import 'package:islamicapp/mainpage/radio/radio-session.dart';
 import 'package:islamicapp/mainpage/settings/settings.dart';
+
+import '../services/location_methods.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -14,6 +17,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String? newdata;
+
+  @override
+  void initState() {
+    getLocation();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getLocation() async {
+    setState(() async {
+      newdata = await LocationMethods().checkLocationStatus();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,8 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (builder) => Settings()));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => Settings()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
@@ -58,7 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     InkWell(
                       onTap: () {
-                         Navigator.push(context, MaterialPageRoute(builder: (builder) => Settings()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => Settings()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
@@ -84,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.white,
                         ),
                         Text(
-                          'Lahore',
+                          newdata.toString(),
                           style: TextStyle(color: Colors.white),
                         )
                       ],
@@ -92,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                         margin: EdgeInsets.only(top: 20),
                         child: Text(
-                          '05:45:44',
+                          DateFormat.Hms().format(DateTime.now()),
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 30,
@@ -178,8 +202,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (builder) => Qurans()));
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => Qurans()));
                     },
                     child: Column(
                       children: [
@@ -308,8 +333,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   InkWell(
-                    onTap: (){
-                       Navigator.push(context, MaterialPageRoute(builder: (builder) => Settings()));
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => Settings()));
                     },
                     child: Column(
                       children: [

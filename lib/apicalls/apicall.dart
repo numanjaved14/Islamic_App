@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:islamicapp/services/location_methods.dart';
 import '../models/prayertimemodel.dart';
 
 class ApiCalls {
@@ -34,10 +35,11 @@ class ApiCalls {
     return PrayerTimeModel.fromJson(jsonDecode(response.body));
   }
 
-  Stream<PrayerTimeModel> gettime(Duration refreshTime, String address) async* {
+  Stream<PrayerTimeModel> gettime(Duration refreshTime) async* {
     while (true) {
-      await Future.delayed(refreshTime);
-      yield await gettiming(address);
+      var address = await LocationMethods().checkLocationStatus();
+      // await Future.delayed(refreshTime);
+      yield await gettiming(address!);
     }
   }
 }
