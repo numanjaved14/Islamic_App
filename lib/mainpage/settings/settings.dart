@@ -12,22 +12,11 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-           width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                    "assets/back.png",
-                  ),
-                  fit: BoxFit.cover),
-            ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
+        appBar: AppBar(
+            backgroundColor: Color(0xff350801), 
+          elevation: 0,
+          leading:   Container(
+            padding: EdgeInsets.only(top: 8,bottom: 8),
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -47,13 +36,24 @@ class _SettingsState extends State<Settings> {
                               ),
                             ),
                            
-       Spacer(),
-                    Text('Profile',style: TextStyle(color: Colors.white,fontSize: 20),)    ,
-                       Spacer(),
-                       
-                ],
-              ),
-
+       centerTitle: true,
+title:                     Text('Profile',style: TextStyle(color: Colors.white,fontSize: 20),)    ,
+           
+        ),
+        body: Container(
+           width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                    "assets/back.png",
+                  ),
+                  fit: BoxFit.cover),
+            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+           
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: ListTile(

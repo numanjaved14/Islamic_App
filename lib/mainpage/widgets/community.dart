@@ -12,6 +12,37 @@ class _CommunityState extends State<Community> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Color(0xff45211a),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          title: Text(
+            'News',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
+          ),
+          centerTitle: true,
+        ),
+        extendBodyBehindAppBar: true,
+        extendBody: true,
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -21,51 +52,14 @@ class _CommunityState extends State<Community> {
                     "assets/back.png",
                   ),
                   fit: BoxFit.cover)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Color(0xff45211a),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'News',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22),
-                    ),
-                    Text(
-                      '',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 300,
-                child: ListView.builder(
-                    itemCount: 1,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView.builder(
+                    itemCount: 401,
                     itemBuilder: (index, context) {
                       return Container(
                         decoration: BoxDecoration(
@@ -73,17 +67,25 @@ class _CommunityState extends State<Community> {
                             borderRadius: BorderRadius.circular(15)),
                         margin: EdgeInsets.only(left: 10, right: 10, top: 20),
                         width: MediaQuery.of(this.context).size.width,
-                        height: 300,
+                        height: 260,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                child: Image.asset(
-                                  'assets/happy.png',
-                                  height: 200,
-                                  fit: BoxFit.cover,
-                                )),
+                              height: 200,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage("assets/happy.png")),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
+                              margin: EdgeInsets.only(
+                                  bottom: 3, left: 10, right: 10),
+                              // child: Image.asset(
+                              //   'assets/happy.png',
+                              //   height: 200,
+                              //   fit: BoxFit.cover,
+                              // )
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -115,9 +117,10 @@ class _CommunityState extends State<Community> {
                           ],
                         ),
                       );
-                    }),
-              ),
-              Container(
+                    },
+                  ),
+                ),
+                 Container(
                 margin: EdgeInsets.only(left: 20, top: 10),
                 child: Text('Latest News',
                     style: TextStyle(
@@ -128,55 +131,8 @@ class _CommunityState extends State<Community> {
 
                     
               ),
-              Container(
-                height: 300,
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: ((context, index) {
-                  return  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
-                    margin: EdgeInsets.only(left: 10, right: 10,top: 20),
-                    width: MediaQuery.of(context).size.width,
-                    height: 120,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                             Container(
-                                  decoration: BoxDecoration(
-                                    
-                                      borderRadius: BorderRadius.circular(20)),
-                                  margin:
-                                      EdgeInsets.only(top: 10, bottom: 10,left: 10,right: 10),
-                                  child: Image.asset(
-                                    'assets/lovr.png',
-                                    width: 130,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                             
-                            
-                             Expanded(child: 
-                             Column(
-                               children: [
-                                 Text("Tadarus Bulan Mahe Eid Ramandan's",style: TextStyle(color: Color(0xff555555),fontSize: 20,fontWeight: FontWeight.bold),),
-                                 SizedBox(height: 10,),
-                                 Text('By Faheem Khan,   12min ago')
-                               ],
-                             ))
-                
-                          ],
-                        )
-                      ],
-                    ),
-                  
-                );
-                })),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),

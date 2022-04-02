@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
                   height: 60,
                   child:
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           MaterialButton(
@@ -67,7 +67,9 @@ class _MainScreenState extends State<MainScreen> {
                               children: <Widget>[
                               //  currentTab == 0 ? Image.asset('assets/homered.png',height: 30,width: 30,) : Image.asset('assets/home.png',height: 30,width: 30,)
                                Icon(Icons.home,color: currentTab == 0 ? Color(0xff3f48cc) : Color(0xff8d8282),),
-                               Text('Home',style: TextStyle(color:currentTab == 0 ? Color(0xff3f48cc) : Color(0xff8d8282),),)
+                               Text('Home',style: TextStyle(
+                                 fontSize: 10,
+                                 color:currentTab == 0 ? Color(0xff3f48cc) : Color(0xff8d8282),),)
                               ],
                             ),
                           ),
@@ -86,7 +88,9 @@ class _MainScreenState extends State<MainScreen> {
                               children: <Widget>[
                               // currentTab == 1 ? Image.asset('assets/ordersred.png',height: 30,width: 30,) : Image.asset('assets/orderswhite.png',height: 30,width: 30,)
                                 Icon(Icons.video_call,color: currentTab == 1 ? Color(0xff3f48cc) : Color(0xff8d8282),),
-                                                               Text('Islam Feed',style: TextStyle(color:currentTab == 1 ? Color(0xff3f48cc) : Color(0xff8d8282),),)
+                                                               Text('Islam Feed',style: TextStyle(
+                                                                 fontSize: 10,
+                                                                 color:currentTab == 1 ? Color(0xff3f48cc) : Color(0xff8d8282),),)
 
                               ],
                             ),
@@ -105,7 +109,9 @@ class _MainScreenState extends State<MainScreen> {
                               children: <Widget>[
                               //  currentTab == 2 ? Image.asset('assets/chatred.png',height: 30,width: 30,) : Image.asset('assets/chatwhite.png',height: 30,width: 30,)
                                Icon(Icons.group,color: currentTab == 2 ? Color(0xff3f48cc) : Color(0xff8d8282),),
-                                                                                            Text('Communities',style: TextStyle(color:currentTab == 2 ? Color(0xff3f48cc) : Color(0xff8d8282),),)
+                                                                                            Text('Communities',style: TextStyle(
+                                                                                              fontSize: 10,
+                                                                                              color:currentTab == 2 ? Color(0xff3f48cc) : Color(0xff8d8282),),)
 
                               ],
                             ),
