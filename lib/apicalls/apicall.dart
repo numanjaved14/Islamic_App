@@ -36,8 +36,8 @@ class ApiCalls {
   }
 
   Stream<PrayerTimeModel> gettime(Duration refreshTime) async* {
+    var address = await LocationMethods().checkLocationStatus();
     while (true) {
-      var address = await LocationMethods().checkLocationStatus();
       // await Future.delayed(refreshTime);
       yield await gettiming(address!);
     }

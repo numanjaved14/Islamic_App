@@ -15,7 +15,7 @@ class LocationMethods {
       Placemark place = placemarks[0];
       var Address =
           '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-      print(Address);
+      // print(Address);
       return place.locality;
       // var addresses = await Geocoder.local
       //     .findAddressesFromCoordinates(location.latitude, location.longitude);

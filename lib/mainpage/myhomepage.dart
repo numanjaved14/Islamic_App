@@ -27,8 +27,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getLocation() async {
-    setState(() async {
-      newdata = await LocationMethods().checkLocationStatus();
+    await LocationMethods()
+        .checkLocationStatus()
+        .then((value) => newdata = value);
+    setState(() {
+      newdata;
     });
   }
 

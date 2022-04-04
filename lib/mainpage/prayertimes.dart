@@ -14,6 +14,9 @@ class PrayersTimes extends StatefulWidget {
 
 class _PrayersTimesState extends State<PrayersTimes> {
   String? newdata;
+  String? cPrayer;
+  var time = TimeOfDay.now();
+  bool init = true;
 
   @override
   void initState() {
@@ -22,9 +25,25 @@ class _PrayersTimesState extends State<PrayersTimes> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    if (init == true) {
+      setState(() {
+        cPrayer = currentPrayer(time);
+        print(cPrayer);
+      });
+      init = false;
+    }
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
   void getLocation() async {
-    setState(() async {
-      newdata = await LocationMethods().checkLocationStatus();
+    await LocationMethods()
+        .checkLocationStatus()
+        .then((value) => newdata = value);
+    setState(() {
+      newdata;
     });
   }
 
@@ -116,7 +135,7 @@ class _PrayersTimesState extends State<PrayersTimes> {
                                       fontWeight: FontWeight.bold),
                                 )),
                             Text(
-                              'Isha',
+                              cPrayer!,
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
@@ -148,7 +167,9 @@ class _PrayersTimesState extends State<PrayersTimes> {
                       Container(
                         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
                         child: Card(
-                          color: Colors.black,
+                          color: cPrayer == 'Fajr'
+                              ? Colors.white.withOpacity(0.3)
+                              : Colors.transparent,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -187,7 +208,9 @@ class _PrayersTimesState extends State<PrayersTimes> {
                       Container(
                         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
                         child: Card(
-                          color: Colors.black,
+                          color: cPrayer == 'Dhuhr'
+                              ? Colors.white.withOpacity(0.3)
+                              : Colors.transparent,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -226,7 +249,9 @@ class _PrayersTimesState extends State<PrayersTimes> {
                       Container(
                         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
                         child: Card(
-                          color: Colors.black,
+                          color: cPrayer == 'Asar'
+                              ? Colors.white.withOpacity(0.3)
+                              : Colors.transparent,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -265,7 +290,9 @@ class _PrayersTimesState extends State<PrayersTimes> {
                       Container(
                         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
                         child: Card(
-                          color: Colors.black,
+                          color: cPrayer == 'Maghrib'
+                              ? Colors.white.withOpacity(0.3)
+                              : Colors.transparent,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -304,7 +331,9 @@ class _PrayersTimesState extends State<PrayersTimes> {
                       Container(
                         margin: EdgeInsets.only(left: 15, right: 15, top: 15),
                         child: Card(
-                          color: Colors.black,
+                          color: cPrayer == 'Isha'
+                              ? Colors.white.withOpacity(0.3)
+                              : Colors.transparent,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -397,7 +426,29 @@ class _PrayersTimesState extends State<PrayersTimes> {
     ));
   }
 
-  // String currentPrayer(String dateTime){
-  //   TimeOfDay.now()
-  // }
+  String currentPrayer(TimeOfDay time) {
+    if ((time.hour > 4 && time.minute > 39) &&
+        (time.hour < 5 && time.minute < 30)) {
+      print('A');
+      return 'Fajr';
+    } else if ((time.hour > 12 && time.minute > 12) &&
+        (time.hour < 14 && time.minute < 0)) {
+      print('B');
+      return 'Dhuhr';
+    } else if ((time.hour > 16 && time.minute > 39) &&
+        (time.hour < 17 && time.minute < 30)) {
+      print('C');
+      return 'Asar';
+    } else if ((time.hour > 18 && time.minute > 25) &&
+        (time.hour < 19 && time.minute < 15)) {
+      print('D');
+      return 'Maghrib';
+    } else if ((time.hour > 20 && time.minute > 47) &&
+        (time.hour < 4 && time.minute < 0)) {
+      print('E');
+      return 'Isha';
+    } else {
+      return '';
+    }
+  }
 }
