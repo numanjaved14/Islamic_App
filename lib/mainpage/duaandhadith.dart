@@ -14,6 +14,38 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+           backgroundColor: Color(0xff350801), 
+          elevation: 0,
+          leading: Padding(
+            padding:  EdgeInsets.only(top:8.0,bottom: 8),
+            child: InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10),
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Color(0xff45211a),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+          ),
+                    title: Text(
+                      'Dua/Hadiths',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22),
+                    ),
+                    centerTitle: true,
+        ),
         backgroundColor: Colors.white,
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -26,44 +58,7 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                   fit: BoxFit.cover)),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Color(0xff45211a),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Dua/Hadiths',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22),
-                    ),
-                    Text(
-                      '',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30),
-                    ),
-                  ],
-                ),
-              ),
+             
               InkWell(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (builder) => Duas()));

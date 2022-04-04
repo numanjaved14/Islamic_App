@@ -12,30 +12,17 @@ class _RadioSessionsState extends State<RadioSessions> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                  "assets/back.png",
-                ),
-                fit: BoxFit.cover),
-          ),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Color(0xff350801), 
+          leading: Container(
+            padding: EdgeInsets.only(top: 8,bottom: 8),
                       child: InkWell(
                         onTap: () {
                           Navigator.pop(context);
                         },
                         child: Container(
-                          margin: EdgeInsets.only(left: 20),
+                          margin: EdgeInsets.only(left: 10),
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
@@ -47,8 +34,10 @@ class _RadioSessionsState extends State<RadioSessions> {
                           ),
                         ),
                       ),
-                    ),
-                    Container(
+
+        ),
+        
+        title: Container(
                       margin: EdgeInsets.only(left: 20),
                       child: Text(
                         'Radio',
@@ -56,7 +45,10 @@ class _RadioSessionsState extends State<RadioSessions> {
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Container(
+                    centerTitle: true,
+
+                    actions: [
+                      Container(
                         height: 70,
                         width: 150,
                         decoration: BoxDecoration(
@@ -79,9 +71,22 @@ class _RadioSessionsState extends State<RadioSessions> {
                                 )),
                           ),
                         ))
-                  ],
+                    ],
+        ),
+        body: Container(
+          
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  "assets/back.png",
                 ),
-              ),
+                fit: BoxFit.cover),
+          ),
+          child: Column(
+            children: [
+             
               Container(
                   decoration: BoxDecoration(
                     color: Colors.red
