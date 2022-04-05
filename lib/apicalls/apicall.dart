@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:islamicapp/authentications/providers/models/quran_audio_model.dart';
+import 'package:islamicapp/authentications/providers/models/quran_text_model.dart';
+import 'package:islamicapp/constants/url_links.dart';
 import 'package:islamicapp/services/location_methods.dart';
 import '../models/prayertimemodel.dart';
 
@@ -16,9 +19,50 @@ class ApiCalls {
 //       return PrayerTimeModel.fromJson(jsonDecode(response.body));
 
 //   }
+
+  var client = http.Client();
+
+  Future<QuranText> getQuranText() async {
+    var response = await client.get(Uri.parse(Strings.quranTextUrl));
+    var quranText = null;
+
+    try {
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        var jsonMap = json.decode(jsonString);
+
+        quranText = QuranText.fromJson(jsonMap);
+      }
+    } catch (exception) {
+      print(exception);
+      return quranText;
+    }
+
+    return quranText;
+  }
+
+  Future<QuranAudio> getQuranAudio() async {
+    var response = await client.get(Uri.parse(Strings.quranAudioUrl));
+    var quranAudio = null;
+
+    try {
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        var jsonMap = json.decode(jsonString);
+
+        quranAudio = QuranAudio.fromJson(jsonMap);
+      }
+    } catch (exception) {
+      print(exception);
+      return quranAudio;
+    }
+
+    return quranAudio;
+  }
+
   Future<PrayerTimeModel> prayerTimebyAddress(String address) async {
     // var url=Uri.parse("https://api.aladhan.com/v1/timingsByAddress?address=$address");
-    var response = await get(Uri.parse(
+    var response = await http.get(Uri.parse(
         "https://api.aladhan.com/v1/timingsByAddress?address=$address"));
     print(response.body);
 
@@ -28,7 +72,7 @@ class ApiCalls {
   Future<PrayerTimeModel> gettiming(String address) async {
     // var url = Uri.parse("https://api.aladhan.com/v1/timingsByAddress?address=$address");
 
-    final response = await get(Uri.parse(
+    final response = await http.get(Uri.parse(
         "https://api.aladhan.com/v1/timingsByAddress?address=$address"));
     print(response.body);
 
