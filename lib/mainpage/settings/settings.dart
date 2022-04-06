@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:islamicapp/authentications/providers/database_services.dart';
+import 'package:islamicapp/mainpage/account_info.dart';
+
+import '../widgets/info_widget.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({ Key? key }) : super(key: key);
+  const Settings({Key? key}) : super(key: key);
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -12,36 +18,37 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-            backgroundColor: Color(0xff350801), 
-          elevation: 0,
-          leading:   Container(
-            padding: EdgeInsets.only(top: 8,bottom: 8),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff45211a),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                           
-       centerTitle: true,
-title:                     Text('Profile',style: TextStyle(color: Colors.white,fontSize: 20),)    ,
-           
-        ),
-        body: Container(
-           width: MediaQuery.of(context).size.width,
+          appBar: AppBar(
+            backgroundColor: Color(0xff350801),
+            elevation: 0,
+            leading: Container(
+              padding: EdgeInsets.only(top: 8, bottom: 8),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: Color(0xff45211a),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            centerTitle: true,
+            title: Text(
+              'Profile',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          body: Container(
+            width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -50,86 +57,116 @@ title:                     Text('Profile',style: TextStyle(color: Colors.white,f
                   ),
                   fit: BoxFit.cover),
             ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-           
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: ListTile(
-                  leading: Container(
-                    height: 150,
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage('assets/ellipse.png'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return InfoWidget(snap: snapshot.data!.data());
+                  },
+                ),
+                Divider(),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.notifications,
+                      color: Color(0xffCBCBCB),
                     ),
-                    
+                    title: Text(
+                      'Notfication',
+                      style: TextStyle(color: Color(0xffCBCBCB)),
+                    ),
                   ),
-                  title: Text('Fahim Rehman',style: TextStyle(color: Colors.white),),
-                    subtitle: Text('fwdkaleem@gmail.com',style: TextStyle(color: Colors.white),),
                 ),
-              ),
-              Divider(),
-Container(
-                margin: EdgeInsets.only(top: 20),
-                child: ListTile(
-                  leading: Icon(Icons.notifications,color:  Color(0xffCBCBCB),),
-                    
-                  
-                  title: Text('Notfication',style: TextStyle(color: Color(0xffCBCBCB)),),
+                Divider(),
+                InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AccountInfo(),
+                  )),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: Text(
+                      'Account Information',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white),
+                    ),
+                  ),
                 ),
-              ),
-              Divider(),
-
-          
-                  Container(
-                    margin: EdgeInsets.only(left: 20,top: 20),
-                    child: Text('Account Information',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.white),)),
-               Divider(),
-Container(
-                margin: EdgeInsets.only(top: 20),
-                child: ListTile(
-                  leading: Icon(Icons.email,color:  Color(0xffCBCBCB),),
-                    
-                  
-                  title: Text('Help & FeedBack',style: TextStyle(color: Color(0xffCBCBCB)),),
+                Divider(),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.email,
+                      color: Color(0xffCBCBCB),
+                    ),
+                    title: Text(
+                      'Help & FeedBack',
+                      style: TextStyle(color: Color(0xffCBCBCB)),
+                    ),
+                  ),
                 ),
-              ),
-                        Divider(),
-Container(
-                margin: EdgeInsets.only(top: 10),
-                child: ListTile(
-                  leading: Icon(Icons.info,color:  Color(0xffCBCBCB),),
-                    
-                  
-                  title: Text('About',style: TextStyle(color: Color(0xffCBCBCB)),),
+                Divider(),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.info,
+                      color: Color(0xffCBCBCB),
+                    ),
+                    title: Text(
+                      'About',
+                      style: TextStyle(color: Color(0xffCBCBCB)),
+                    ),
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: ListTile(
-                  leading: Icon(Icons.privacy_tip,color:  Color(0xffCBCBCB),),
-                    
-                  
-                  title: Text('Privacy Policy',style: TextStyle(color: Color(0xffCBCBCB)),),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.privacy_tip,
+                      color: Color(0xffCBCBCB),
+                    ),
+                    title: Text(
+                      'Privacy Policy',
+                      style: TextStyle(color: Color(0xffCBCBCB)),
+                    ),
+                  ),
                 ),
-              ),
-            Spacer(),
-Container(
-                margin: EdgeInsets.only(top: 10),
-                child: ListTile(
-                  leading: Icon(Icons.logout,color:  Color(0xffD63939),),
-                    
-                  
-                  title: Text('Log out',style: TextStyle(color: Color(0xffD63939)),),
+                Spacer(),
+                InkWell(
+                  onTap: DataBaseMethods().singnOut(),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.logout,
+                        color: Color(0xffD63939),
+                      ),
+                      title: Text(
+                        'Log out',
+                        style: TextStyle(color: Color(0xffD63939)),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-
-
-            ],
-          ),
-        ),
-      ),
+              ],
+            ),
+          )),
     );
   }
 }
