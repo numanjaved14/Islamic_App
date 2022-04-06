@@ -1,3 +1,4 @@
+import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:islamicapp/authentications/providers/models/quran_audio_model.dart';
