@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:islamicapp/authentications/providers/models/dua_model.dart';
 import 'package:islamicapp/authentications/providers/models/quran_audio_model.dart';
 import 'package:islamicapp/authentications/providers/models/quran_text_model.dart';
 import 'package:islamicapp/constants/url_links.dart';
@@ -21,6 +22,28 @@ class ApiCalls {
 //   }
 
   var client = http.Client();
+
+//Internal JSON String used
+  // Future<DuaModel> getDua() async {
+  //   var dua = null;
+
+  //   var myDataString = utf8.decode(duasVar.toString());
+
+  //   var jsonMap = json.decode(myDataString);
+
+  //   dua = DuaModel.fromJson(jsonMap);
+
+  //   // try {
+  //   //   var jsonMap = json.decode(duasVar.toString());
+
+  //   //   dua = DuaModel.fromJson(jsonMap);
+  //   // } catch (exception) {
+  //   //   print(exception);
+  //   //   return dua;
+  //   // }
+
+  //   return dua;
+  // }
 
   Future<QuranText> getQuranText() async {
     var response = await client.get(Uri.parse(Strings.quranTextUrl));

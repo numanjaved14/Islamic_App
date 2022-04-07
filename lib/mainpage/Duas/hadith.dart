@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:islamicapp/authentications/providers/models/hadith_model.dart';
+
+import '../../apicalls/read_json.dart';
 
 class Hadiths extends StatefulWidget {
-  const Hadiths({ Key? key }) : super(key: key);
+  const Hadiths({Key? key}) : super(key: key);
 
   @override
   State<Hadiths> createState() => _HadithsState();
@@ -12,8 +15,8 @@ class _HadithsState extends State<Hadiths> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body:Container(
+          backgroundColor: Colors.white,
+          body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
@@ -22,12 +25,12 @@ class _HadithsState extends State<Hadiths> {
                       "assets/back.png",
                     ),
                     fit: BoxFit.cover)),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                           Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
@@ -61,64 +64,94 @@ class _HadithsState extends State<Hadiths> {
                               fontSize: 30),
                         ),
                       ],
+                    ),
+                  ),
+                  FutureBuilder(
+                    future: ReadJSON().ReadJsonHadith(),
+                    builder: (context, data) {
+                      if (data.hasError) {
+                        return Center(child: Text("${data.error}"));
+                      } else if (data.hasData) {
+                        var items = data.data as List<HadithModel>;
+                        return Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: ListView.builder(
+                              itemCount: items == null ? 0 : items.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  margin: EdgeInsets.only(
+                                      left: 10, right: 10, top: 20),
+                                  width: MediaQuery.of(this.context).size.width,
+                                  // height: 200,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        color: Color(0xff3F48CC),
+                                        height: 30,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 20),
+                                                child: Text(items[index]
+                                                    .groupId!
+                                                    .toString())),
+                                            Spacer(),
+                                            Icon(Icons.share,
+                                                color: Color.fromARGB(
+                                                    255, 244, 244, 245)),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Icon(Icons.play_arrow,
+                                                color: Color.fromARGB(
+                                                    255, 244, 244, 245))
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                    
-                                    Container(
-                                      height: MediaQuery.of(context).size.height,
-                                      child: ListView.builder(
-                      itemCount: 2,
-                      itemBuilder: (index,context){
-                      return  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      margin: EdgeInsets.only(left: 10, right: 10,top: 20),
-                      width: MediaQuery.of(this.context).size.width,
-                      height: 200,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                       
-                        Container(
-                          color: Color(0xff3F48CC),
-                          height: 30,
-                         child: Row(
-                           children: [
-                              Container(
-                                margin: EdgeInsets.only(left:20),
-                                child: Text('1')),
-                               Spacer(),
-                               Icon(Icons.share,color:Color.fromARGB(255, 244, 244, 245)) ,
-                               SizedBox(width: 5,),
-                               Icon(Icons.play_arrow,color:Color.fromARGB(255, 244, 244, 245)) 
-
-                           ],
-                         ),
-                        ) ,
-
-                         Container(
-                           margin: EdgeInsets.only(right: 20),
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.end,
-                             children: [
-                               Image.asset('assets/bismillah.png',height: 70,)
-                             ],
-                           ),
-                         ),
-                         Container(
-                           margin: EdgeInsets.only(left: 20,top: 20),
-                           child: Text('[All] praise is [dua] to allah, Lord of the worlds',style: TextStyle(fontSize: 20,color: Colors.black),))
-                        ],
-                      ),
-                                      
-                                  );
-                                      }),
-                                    )
-                        ],
-                      ),
-                    ),)
-      ),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 20),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Image.asset(
+                                              'assets/bismillah.png',
+                                              height: 70,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                              left: 20, top: 20),
+                                          child: Text(
+                                            items[index].arDua!,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black),
+                                          ))
+                                    ],
+                                  ),
+                                );
+                              }),
+                        );
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          )),
     );
   }
 }
