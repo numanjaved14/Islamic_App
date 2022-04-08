@@ -1,11 +1,11 @@
-class QuranText {
+class QuranTextModel {
   int? code;
   String? status;
   Data? data;
 
-  QuranText({this.code, this.status, this.data});
+  QuranTextModel({this.code, this.status, this.data});
 
-  QuranText.fromJson(Map<String, dynamic> json) {
+  QuranTextModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;

@@ -46,25 +46,29 @@ class _CommunityState extends State<Community> {
         ),
         extendBodyBehindAppBar: true,
         extendBody: true,
-        body: StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection('products').snapshots(),
-            builder: (context,
-                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return CommunityWidget(
-                    snap: snapshot.data!.docs[index].data(),
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('communities')
+                  .snapshots(),
+              builder: (context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-              );
-            }),
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CommunityWidget(
+                      snap: snapshot.data!.docs[index].data(),
+                    );
+                  },
+                );
+              }),
+        ),
         floatingActionButton: new FloatingActionButton(
           child: new Icon(Icons.add),
           backgroundColor: new Color(0xFFE57373),

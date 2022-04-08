@@ -12,7 +12,7 @@ class Qurans extends StatefulWidget {
 }
 
 class _QuransState extends State<Qurans> {
-  late Future<QuranText> _quranText;
+  late Future<QuranTextModel> _quranText;
 
   @override
   void initState() {
@@ -94,7 +94,7 @@ class _QuransState extends State<Qurans> {
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 1.6,
-                child: FutureBuilder<QuranText>(
+                child: FutureBuilder<QuranTextModel>(
                     future: _quranText,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {

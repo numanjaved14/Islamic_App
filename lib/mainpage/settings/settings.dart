@@ -16,6 +16,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    var _uid = FirebaseAuth.instance.currentUser!.uid;
+
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -63,7 +65,7 @@ class _SettingsState extends State<Settings> {
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('users')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .doc(_uid)
                       .snapshots(),
                   builder: (context,
                       AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
@@ -149,7 +151,7 @@ class _SettingsState extends State<Settings> {
                 ),
                 Spacer(),
                 InkWell(
-                  onTap: DataBaseMethods().singnOut(),
+                  onTap: () => DataBaseMethods().singnOut(),
                   child: Container(
                     margin: EdgeInsets.only(top: 10),
                     child: ListTile(

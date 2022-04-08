@@ -45,7 +45,7 @@ class ApiCalls {
   //   return dua;
   // }
 
-  Future<QuranText> getQuranText() async {
+  Future<QuranTextModel> getQuranText() async {
     var response = await client.get(Uri.parse(Strings.quranTextUrl));
     var quranText = null;
 
@@ -54,7 +54,7 @@ class ApiCalls {
         var jsonString = response.body;
         var jsonMap = json.decode(jsonString);
 
-        quranText = QuranText.fromJson(jsonMap);
+        quranText = QuranTextModel.fromJson(jsonMap);
       }
     } catch (exception) {
       print(exception);

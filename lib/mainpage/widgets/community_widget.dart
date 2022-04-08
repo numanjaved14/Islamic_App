@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CommunityWidget extends StatelessWidget {
   var snap;
@@ -13,20 +14,32 @@ class CommunityWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 260,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             height: 200,
-            decoration: BoxDecoration(
-                image: DecorationImage(image: NetworkImage(snap['photoUrl'])),
-                borderRadius: BorderRadius.all(Radius.circular(50))),
-            margin: EdgeInsets.only(bottom: 3, left: 10, right: 10),
-            // child: Image.asset(
-            //   'assets/happy.png',
-            //   height: 200,
-            //   fit: BoxFit.cover,
-            // )
+            width: 200,
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: Image(
+                image: NetworkImage(
+                  snap['photoUrl'],
+                ),
+              ),
+            ),
           ),
+          // Container(
+          //   height: 200,
+          //   decoration: BoxDecoration(
+          //       image: DecorationImage(image: NetworkImage(snap['photoUrl'])),
+          //       borderRadius: BorderRadius.all(Radius.circular(50))),
+          //   margin: EdgeInsets.only(bottom: 3, left: 10, right: 10),
+          //   // child: Image.asset(
+          //   //   'assets/happy.png',
+          //   //   height: 200,
+          //   //   fit: BoxFit.cover,
+          //   // )
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
