@@ -14,17 +14,17 @@ class QariFeed extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            snap['title'],
+            snap['mosqueName'],
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Text(
-            snap['title'],
+            snap['qariName'],
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Text(
-            snap['dateTime'],
+            snap['location'],
             style: TextStyle(color: Colors.grey, fontSize: 20),
           )
         ],

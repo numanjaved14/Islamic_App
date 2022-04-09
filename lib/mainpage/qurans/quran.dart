@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:islamicapp/apicalls/apicall.dart';
+import 'package:islamicapp/authentications/providers/models/quran_text_asad_model.dart';
 import 'package:islamicapp/authentications/providers/models/quran_text_model.dart';
+import 'package:islamicapp/authentications/providers/models/test_model.dart';
 import 'package:islamicapp/mainpage/qurans/surah.dart';
 
 class Qurans extends StatefulWidget {
@@ -12,11 +14,11 @@ class Qurans extends StatefulWidget {
 }
 
 class _QuransState extends State<Qurans> {
-  late Future<QuranTextModel> _quranText;
+  late Future<QuranTest> _quranText;
 
   @override
   void initState() {
-    _quranText = ApiCalls().getQuranText();
+    _quranText = ApiCalls().getTestCall();
     super.initState();
   }
 
@@ -94,14 +96,15 @@ class _QuransState extends State<Qurans> {
               ),
               Container(
                 height: MediaQuery.of(context).size.height / 1.6,
-                child: FutureBuilder<QuranTextModel>(
+                child: FutureBuilder<QuranTest>(
                     future: _quranText,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
-                            itemCount: snapshot.data!.data!.surahs!.length,
-                            itemBuilder: (BuildContext contxt, int index) {
-                              var surah = snapshot.data!.data!.surahs![index];
+                            itemCount: snapshot.data!.data!.first.ayahs!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var surah =
+                                  snapshot.data!.data!.first.ayahs![index];
                               print(surah);
                               return InkWell(
                                 onTap: () => {
@@ -117,7 +120,7 @@ class _QuransState extends State<Qurans> {
                                   margin: EdgeInsets.only(
                                       left: 10, right: 10, top: 20),
                                   width: MediaQuery.of(this.context).size.width,
-                                  height: 100,
+                                  // height: 100,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -125,20 +128,20 @@ class _QuransState extends State<Qurans> {
                                       Container(
                                           margin: EdgeInsets.only(top: 30),
                                           child: Text(
-                                            surah.name!,
+                                            surah.juz.toString(),
                                             style: TextStyle(
                                                 fontSize: 24,
                                                 color: Color(0xff555555)),
                                           )),
-                                      Text(
-                                        surah.revelationType! +
-                                            ' • ' +
-                                            surah.ayahs!.length.toString() +
-                                            ' Verses',
-                                        style: TextStyle(
-                                            color: Color(0xffAEAEAE),
-                                            fontSize: 16),
-                                      ),
+                                      // Text(
+                                      //   surah.revelationType! +
+                                      //       ' • ' +
+                                      //       surah.ayahs!.length.toString() +
+                                      //       ' Verses',
+                                      //   style: TextStyle(
+                                      //       color: Color(0xffAEAEAE),
+                                      //       fontSize: 16),
+                                      // ),
                                     ],
                                   ),
                                 ),

@@ -160,22 +160,21 @@ class DataBaseMethods {
     String res = 'Some error occured.';
     try {
       if (mosque.isNotEmpty || qari.isNotEmpty || location.isNotEmpty) {
-        final locationStatus = await FlutterQiblah.checkLocationStatus();
-        if (locationStatus.enabled) {
-          var position = await Geolocator.getCurrentPosition();
+        // final locationStatus = await FlutterQiblah.checkLocationStatus();
+        // if (locationStatus.enabled) {
+        //   var position = await Geolocator.getCurrentPosition();
 
-          AddQariFeedModel qariFeed = AddQariFeedModel(
-            location: location,
-            mosqueName: mosque,
-            qariName: qari,
-            locationCo_ordinate: position,
-          );
+        AddQariFeedModel qariFeed = AddQariFeedModel(
+          location: location,
+          mosqueName: mosque,
+          qariName: qari,
+          // locationCo_ordinate: position,
+        );
 
-          _firestore.collection('QariMosqueFeed').doc().set(
-                qariFeed.toJson(),
-              );
-          res = 'Success';
-        }
+        _firestore.collection('QariMosqueFeed').doc().set(
+              qariFeed.toJson(),
+            );
+        res = 'Success';
       }
     } catch (error) {
       res = error.toString();
