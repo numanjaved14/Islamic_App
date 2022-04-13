@@ -5,8 +5,15 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:islamicapp/authentications/landing_scr.dart';
 import 'package:islamicapp/authentications/providers/models/add_commit.dart';
+import 'package:islamicapp/authentications/providers/models/add_qari_feed_model.dart';
 import 'package:islamicapp/authentications/providers/usermodel.dart';
+
+import '../../qibla_direction/flutter_qiblah.dart';
 
 class DataBaseMethods {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -104,8 +111,17 @@ class DataBaseMethods {
     return res;
   }
 
-  singnOut() async {
+//Rout for LogOut
+  Route<void> _myRouteBuilder(BuildContext context, Object? arguments) {
+    return MaterialPageRoute<void>(
+      builder: (BuildContext context) => LandingScreen(),
+    );
+  }
+
+  singnOut(BuildContext context) async {
     await _firebaseAuth.signOut();
+    Navigator.of(context).restorablePush(
+        (context, arguments) => _myRouteBuilder(context, arguments));
   }
 
   Future<String> uploadImageToStorage(
@@ -138,8 +154,37 @@ class DataBaseMethods {
           photoUrl: photoUrl,
         );
 
-        _firestore.collection('communities').doc(_auth.currentUser!.uid).set(
+        _firestore.collection('communities').doc().set(
               commit.toJson(),
+            );
+        res = 'Success';
+      }
+    } catch (error) {
+      res = error.toString();
+    }
+    return res;
+  }
+
+  Future<String> uploadMosque(
+      {required String mosque,
+      required String qari,
+      required String location}) async {
+    String res = 'Some error occured.';
+    try {
+      if (mosque.isNotEmpty || qari.isNotEmpty || location.isNotEmpty) {
+        // final locationStatus = await FlutterQiblah.checkLocationStatus();
+        // if (locationStatus.enabled) {
+        //   var position = await Geolocator.getCurrentPosition();
+
+        AddQariFeedModel qariFeed = AddQariFeedModel(
+          location: location,
+          mosqueName: mosque,
+          qariName: qari,
+          // locationCo_ordinate: position,
+        );
+
+        _firestore.collection('QariMosqueFeed').doc().set(
+              qariFeed.toJson(),
             );
         res = 'Success';
       }

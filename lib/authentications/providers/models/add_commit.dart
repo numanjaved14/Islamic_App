@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class AddCommit {
   final String title;
   final String uid;
@@ -13,6 +15,6 @@ class AddCommit {
         'title': title,
         'uid': uid,
         'photoUrl': photoUrl,
-        'dateTime': DateTime.now(),
+        'dateTime': DateFormat.yMd().format(DateTime.now()),
       };
 }

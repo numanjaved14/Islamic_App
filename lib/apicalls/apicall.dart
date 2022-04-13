@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:islamicapp/authentications/providers/models/dua_model.dart';
 import 'package:islamicapp/authentications/providers/models/quran_audio_model.dart';
+import 'package:islamicapp/authentications/providers/models/quran_text_asad_model.dart';
 import 'package:islamicapp/authentications/providers/models/quran_text_model.dart';
+import 'package:islamicapp/authentications/providers/models/test_model.dart';
 import 'package:islamicapp/constants/url_links.dart';
 import 'package:islamicapp/services/location_methods.dart';
 import '../models/prayertimemodel.dart';
@@ -45,8 +47,8 @@ class ApiCalls {
   //   return dua;
   // }
 
-  Future<QuranText> getQuranText() async {
-    var response = await client.get(Uri.parse(Strings.quranTextUrl));
+  Future<QuranTextModel> getQuranText() async {
+    var response = await client.get(Uri.parse(''));
     var quranText = null;
 
     try {
@@ -54,12 +56,52 @@ class ApiCalls {
         var jsonString = response.body;
         var jsonMap = json.decode(jsonString);
 
-        quranText = QuranText.fromJson(jsonMap);
+        quranText = QuranTextModel.fromJson(jsonMap);
       }
     } catch (exception) {
       print(exception);
       return quranText;
     }
+
+    return quranText;
+  }
+
+  Future<QuranEditionModel> getTestCall() async {
+    var response =
+        await client.get(Uri.parse('http://api.alquran.cloud/v1/edition'));
+    var quranText = null;
+
+    try {
+      if (response.statusCode == 200) {
+        var jsonString = response.body;
+        var jsonMap = json.decode(jsonString);
+
+        quranText = QuranEditionModel.fromJson(jsonMap);
+      }
+    } catch (exception) {
+      print(exception);
+      return quranText;
+    }
+
+    return quranText;
+  }
+
+  Future<QuranTextAsad> getQuranTextAsad() async {
+    var response = await client.get(Uri.parse(Strings.quranTextAsadUrl));
+    print(response.body);
+    var quranText;
+
+    var jsonString = response.body;
+    var jsonMap = json.decode(jsonString);
+
+    quranText = QuranTextAsad.fromJson(jsonMap);
+    print("Call Success: " + quranText);
+    // try {
+    //   if (response.statusCode == 200) {}
+    // } catch (exception) {
+    //   print("Call Failed: " + quranText);
+    //   return quranText;
+    // }
 
     return quranText;
   }

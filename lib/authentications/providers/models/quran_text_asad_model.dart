@@ -1,11 +1,11 @@
-class QuranTextModel {
+class QuranTextAsad {
   int? code;
   String? status;
   Data? data;
 
-  QuranTextModel({this.code, this.status, this.data});
+  QuranTextAsad({this.code, this.status, this.data});
 
-  QuranTextModel.fromJson(Map<String, dynamic> json) {
+  QuranTextAsad.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     status = json['status'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -104,7 +104,7 @@ class Ayahs {
   int? page;
   int? ruku;
   int? hizbQuarter;
-  bool? sajda;
+  Map<String, dynamic>? sajda;
 
   Ayahs(
       {this.number,

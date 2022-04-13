@@ -7,6 +7,8 @@ import 'package:islamicapp/mainpage/qurans/quran.dart';
 import 'package:islamicapp/mainpage/radio/radio-session.dart';
 import 'package:islamicapp/mainpage/settings/settings.dart';
 
+import '../apicalls/apicall.dart';
+import '../models/prayertimemodel.dart';
 import '../services/location_methods.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -86,80 +88,158 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 110,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              newdata.toString(),
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(top: 20),
-                            child: Text(
-                              DateFormat.Hms().format(DateTime.now()),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                        Text(
-                          'Isha',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
+                    // height: 110,
+                    child: StreamBuilder<PrayerTimeModel>(
+                      stream: ApiCalls().gettime(const Duration(seconds: 0)),
+                      builder:
+                          (context, AsyncSnapshot<PrayerTimeModel> snapshot) {
+                        if (snapshot.hasData) {
+                          PrayerTimeModel data = snapshot.data!;
+                          return Column(
+                            children: [
+                              SizedBox(
+                                // height: 110,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                        ),
+                                        Text(
+                                          newdata.toString(),
+                                          style: TextStyle(color: Colors.white),
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                        // margin: EdgeInsets.only(top: 20),
+                                        child: Text(
+                                      DateFormat.Hms().format(DateTime.now()),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    Text(
+                                      'Isha',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Today',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      data.data.date.hijri!.month!.number
+                                              .toString() +
+                                          '  ' +
+                                          data.data.date.hijri!.month!.en
+                                              .toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              // Column(
+                              //   children: [
+                              //     Row(
+                              //       mainAxisAlignment: MainAxisAlignment.center,
+                              //       children: [
+                              //         Icon(
+                              //           Icons.location_on,
+                              //           color: Colors.white,
+                              //         ),
+                              //         Text(
+                              //           newdata.toString(),
+                              //           style: TextStyle(color: Colors.white),
+                              //         )
+                              //       ],
+                              //     ),
+                              //     Container(
+                              //         margin: EdgeInsets.only(top: 20),
+                              //         child: Text(
+                              //           DateFormat.Hms().format(DateTime.now()),
+                              //           style: TextStyle(
+                              //               color: Colors.white,
+                              //               fontSize: 30,
+                              //               fontWeight: FontWeight.bold),
+                              //         )),
+                              //     Text(
+                              //       'Isha',
+                              //       style: TextStyle(color: Colors.white),
+                              //     ),
+                            ],
+                            // ),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Today',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '1st Ramzan',
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                '23 Days',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Days left to Eid',
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(top: 20),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: Column(
+                  //           children: [
+                  //             Text(
+                  //               'Today',
+                  //               style: TextStyle(
+                  //                   color: Colors.white,
+                  //                   fontWeight: FontWeight.bold),
+                  //             ),
+                  //             Text(
+                  //               '1st Ramzan',
+                  //               style: TextStyle(color: Colors.white),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ),
+                  //       Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: Column(
+                  //           children: [
+                  //             Text(
+                  //               '23 Days',
+                  //               style: TextStyle(
+                  //                   color: Colors.white,
+                  //                   fontWeight: FontWeight.bold),
+                  //             ),
+                  //             Text(
+                  //               'Days left to Eid',
+                  //               style: TextStyle(color: Colors.white),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                   Container(
                     margin: EdgeInsets.only(top: 30),
                     child: Row(
