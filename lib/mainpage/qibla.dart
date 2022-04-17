@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:islamicapp/qibla_direction/flutter_qiblah.dart';
-import 'package:islamicapp/qibla_direction/qiblahcompass.dart';
-import 'package:islamicapp/qibla_direction/qiblamaps.dart';
+import 'package:islamicapp/services/qibla_direction/qiblahcompass.dart';
+import 'package:islamicapp/services/qibla_direction/qiblamaps.dart';
+
 
 class Qibla extends StatefulWidget {
   const Qibla({Key? key}) : super(key: key);
@@ -55,15 +55,21 @@ class _QiblaState extends State<Qibla> {
                             fontWeight: FontWeight.bold,
                             fontSize: 30),
                       ),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Color(0xff45211a),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Icon(
-                          Icons.map,
-                          color: Colors.white,
+                      InkWell(
+                        onTap: (() => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => QiblahMaps()))),
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Color(0xff45211a),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Icon(
+                            Icons.map,
+                            color: Colors.white,
+                          ),
                         ),
                       )
                     ],
@@ -71,12 +77,15 @@ class _QiblaState extends State<Qibla> {
                 ),
 
                 Container(
-                  height: 100,
-                  width: 100,
+                  height: 200,
+                  width: 300,
                   margin:
                       EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
-                  child: QiblahMaps(),
-                  // child: Image.asset('assets/maos.png'),
+                  // child: QiblahMaps(),
+                  child: Image.asset('assets/map.png'),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 QiblahCompass(),
                 //  Stack(

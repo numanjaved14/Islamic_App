@@ -11,47 +11,65 @@ class IslamFeed extends StatefulWidget {
 }
 
 class _IslamFeedState extends State<IslamFeed> {
+  String? search;
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                  "assets/back.png",
-                ),
-                fit: BoxFit.cover)),
-        height: MediaQuery.of(context).size.height,
-        child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('QariMosqueFeed')
-                .snapshots(),
-            builder: (context,
-                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return QariFeed(
-                    snap: snapshot.data!.docs[index].data(),
-                  );
-                },
-              );
-            }),
-      ),
-      floatingActionButton: new FloatingActionButton(
+floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.add),
         backgroundColor: new Color(0xFFE57373),
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => AddQariFeed(),
-          ),
-        ),
+          ))),
+        
+      
+    
+
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+        image: DecorationImage(image: AssetImage('assets/back.png',),fit: BoxFit.cover),
+        
       ),
+      child: Column(
+        children: [
+          FutureBuilder(
+                future: search == null
+                    ? FirebaseFirestore.instance
+                        .collection('QariMosqueFeed')
+                        .get()
+                    : FirebaseFirestore.instance
+                        .collection('QariMosqueFeed')
+                        .where('mosqueName', isGreaterThanOrEqualTo: search)
+                        .get(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return QariFeed(
+                        snap: snapshot.data!.docs[index].data(),
+                      );
+                    },
+                  );
+                }),
+                
+          ],
+        ),
+      
+        
+      ),
+      
     );
+    
   }
 }

@@ -1,5 +1,7 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:islamicapp/mainpage/current_prayer.dart';
 import 'package:islamicapp/mainpage/duaandhadith.dart';
 import 'package:islamicapp/mainpage/prayertimings.dart';
 import 'package:islamicapp/mainpage/qibla.dart';
@@ -20,12 +22,31 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String? newdata;
+  int currentPage = 0;
+  final _controller = PageController(initialPage: 0);
+
+  String? _cPrayer;
+  var time = TimeOfDay.now();
+  bool init = true;
 
   @override
   void initState() {
     getLocation();
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (init == true) {
+      setState(() {
+        _cPrayer = CurrentPrayer().currentPrayer(time);
+        // print(cPrayer);
+      });
+      init = false;
+    }
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
   }
 
   void getLocation() async {
@@ -39,55 +60,90 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff350801),
-          leading: Container(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => Settings()));
+                },
+                child: Container(
+                    height: 48,
+                    width: 48,
+                    decoration: BoxDecoration(
+                        color: Color(0xff441009),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        'assets/grid.png',
+                        height: 24,
+                        width: 24,
+                      ),
+                    ))),
+          ),
+        ),
+        centerTitle: true,
+        title: Text(
+          'Next prayer time',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Gilroy',
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: InkWell(
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (builder) => Settings()));
               },
-              child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Icon(Icons.view_column)),
+              child: Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                    color: Color(0xff441009),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Icon(Icons.settings)),
+              ),
             ),
-          ),
-          centerTitle: true,
-          title: Text(
-            'Next prayer time',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          actions: [
-            InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => Settings()));
-              },
-              child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Icon(Icons.settings)),
-            )
-          ],
-        ),
-        // drawer: MyDrawer(),
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                    "assets/back.png",
-                  ),
-                  fit: BoxFit.cover)),
-          child: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
+          )
+        ],
+      ),
+      // extendBody: true,
+      extendBodyBehindAppBar: true,
+      // drawer: MyDrawer(),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  _cPrayer == 'Fajr'
+                      ? "assets/fajr_back.png"
+                      : _cPrayer == 'Dhuhr'
+                          ? "assets/duhr_back.png"
+                          : _cPrayer == 'Asar'
+                              ? "assets/asr_back.png"
+                              : _cPrayer == 'Maghrib'
+                                  ? "assets/maghrib_back.png"
+                                  : "assets/isha_back.png",
+                ),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                 SizedBox(
                     // height: 110,
                     child: StreamBuilder<PrayerTimeModel>(
                       stream: ApiCalls().gettime(const Duration(seconds: 0)),
@@ -102,8 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.location_on,
@@ -111,7 +166,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                         Text(
                                           newdata.toString(),
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Gilroy',
+                                          ),
                                         )
                                       ],
                                     ),
@@ -120,324 +178,593 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: Text(
                                       DateFormat.Hms().format(DateTime.now()),
                                       style: TextStyle(
+                                          fontFamily: 'Gilroy',
                                           color: Colors.white,
                                           fontSize: 30,
                                           fontWeight: FontWeight.bold),
                                     )),
-                                    Text(
-                                      'Isha',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                    // Text(
+                                    //   'Isha',
+                                    //   style: TextStyle(color: Colors.white, fontFamily: 'Gilroy',),
+                                    // ),
                                   ],
                                 ),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Container(
                                 margin: EdgeInsets.only(left: 20),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      'Today',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      data.data.date.hijri!.month!.number
-                                              .toString() +
-                                          '  ' +
-                                          data.data.date.hijri!.month!.en
-                                              .toString(),
-                                      style: TextStyle(color: Colors.white),
-                                    )
+                                    // Text(
+                                    //   'Today',
+                                    //   style: TextStyle(
+                                    //     color: Colors.white,
+                                    //     fontWeight: FontWeight.bold,
+                                    //     fontFamily: 'Gilroy',
+                                    //   ),
+                                    // ),
+                                    // Text(
+                                    //   '13 Ramadan',
+                                    //   // data.data.date.hijri!.month!.number
+                                    //   //         .toString() +
+                                    //   //     '  ' +
+                                    //   //     data.data.date.hijri!.month!.en
+                                    //   //         .toString(),m
+                                    //   style: TextStyle(
+                                    //     color: Colors.white,
+                                    //     fontFamily: 'Gilroy',
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              // Column(
-                              //   children: [
-                              //     Row(
-                              //       mainAxisAlignment: MainAxisAlignment.center,
-                              //       children: [
-                              //         Icon(
-                              //           Icons.location_on,
-                              //           color: Colors.white,
-                              //         ),
-                              //         Text(
-                              //           newdata.toString(),
-                              //           style: TextStyle(color: Colors.white),
-                              //         )
-                              //       ],
-                              //     ),
-                              //     Container(
-                              //         margin: EdgeInsets.only(top: 20),
-                              //         child: Text(
-                              //           DateFormat.Hms().format(DateTime.now()),
-                              //           style: TextStyle(
-                              //               color: Colors.white,
-                              //               fontSize: 30,
-                              //               fontWeight: FontWeight.bold),
-                              //         )),
-                              //     Text(
-                              //       'Isha',
-                              //       style: TextStyle(color: Colors.white),
-                              //     ),
                             ],
                             // ),
                           );
                         } else {
-                          return Center(
-                            child: CircularProgressIndicator(),
+                          return Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
                           );
                         }
                       },
                     ),
                   ),
-                  // Container(
-                  //   margin: EdgeInsets.only(top: 20),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.all(8.0),
-                  //         child: Column(
-                  //           children: [
-                  //             Text(
-                  //               'Today',
-                  //               style: TextStyle(
-                  //                   color: Colors.white,
-                  //                   fontWeight: FontWeight.bold),
-                  //             ),
-                  //             Text(
-                  //               '1st Ramzan',
-                  //               style: TextStyle(color: Colors.white),
-                  //             )
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.all(8.0),
-                  //         child: Column(
-                  //           children: [
-                  //             Text(
-                  //               '23 Days',
-                  //               style: TextStyle(
-                  //                   color: Colors.white,
-                  //                   fontWeight: FontWeight.bold),
-                  //             ),
-                  //             Text(
-                  //               'Days left to Eid',
-                  //               style: TextStyle(color: Colors.white),
-                  //             )
-                  //           ],
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  Container(
-                    margin: EdgeInsets.only(top: 30),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                
+                 
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                            'Categories',
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Icon(
+                            Icons.more_horiz,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ]),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: PageView(
+                        controller: _controller,
+                        onPageChanged: (index) {
+                          setState(() {
+                            currentPage = index;
+                          });
+                        },
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(
-                              'Categories',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25),
+                          Expanded(
+                              child: Column(children: [
+                            Expanded(
+                                child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        // Navigator.pushNamed(context , categories[index].route),
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (builder) => Qurans()));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 0.25),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child:
+                                                  Image.asset('assets/quran.png'),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Quran',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Gilroy',
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (builder) => PrayersTimes()));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 0.25),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child:
+                                                  Image.asset('assets/mos.png'),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Prayer Times',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Gilroy',
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (builder) => RadioSessions()));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 0.25),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(12.0),
+                                              child:
+                                                  Image.asset('assets/radio.png'),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Q/A Radio',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Gilroy',
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                              Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (builder) => DuaAndHadith()));
+                                         
+                                          },
+                                          child: Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 0.25),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child:
+                                                  Image.asset('assets/ram.png'),
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Dua/Hadiths',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Gilroy',
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (builder) => Qibla()));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 0.25),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Image.asset(
+                                                'assets/qib.png',
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Qibla',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Gilroy',
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (builder) => Settings()));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 0.25),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Image.asset(
+                                                'assets/sett.png',
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Setting',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Gilroy',
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ))
+                          ])),
+                          
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (builder) =>
+                                                          Qurans()));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 0.25),
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    child: Image.asset(
+                                                        'assets/mos.png'),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Prayer Times',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'Gilroy',
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (builder) => PrayersTimes()));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 0.25),
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    child: Image.asset(
+                                                        'assets/radio.png'),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Q/A Radio',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'Gilroy',
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (builder) => RadioSessions()));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 0.25),
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        12.0),
+                                                    child: Image.asset(
+                                                        'assets/nes.png'),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'News',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'Gilroy',
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (builder) => Qibla()));
+                                                },
+                                                child: Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 0.25),
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    child: Image.asset(
+                                                        'assets/qib.png'),
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                'Qibla',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontFamily: 'Gilroy',
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(builder: (builder) => Settings()));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 0.25),
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    child: Image.asset(
+                                                      'assets/sett.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Setting',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'Gilroy',
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (builder) => Settings()));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 0.25),
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    child: Image.asset(
+                                                      'assets/membership.png',
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Membership',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'Gilroy',
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Icon(
-                              Icons.more_horiz,
-                              color: Colors.white,
-                            ),
-                          ),
+                          
                         ]),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => Qurans()));
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 255, 255, 0.25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Image.asset('assets/quran.png'),
-                            ),
-                            Text(
-                              'Quran',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
+                ),
+             
+   Container(
+     margin: EdgeInsets.only(bottom: 200),
+     child: Center(
+                      child: DotsIndicator(
+                        dotsCount: 2,
+                        position: currentPage.toDouble(),
+                        decorator: DotsDecorator(
+                          color: Colors.grey, // Inactive color
+                          activeColor: Color(0xff3F48CC),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => PrayersTimes()));
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 255, 255, 0.25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Image.asset('assets/mos.png'),
-                            ),
-                            Text(
-                              'Prayer Times',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => RadioSessions()));
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 255, 255, 0.25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Image.asset('assets/radio.png'),
-                            ),
-                            Text(
-                              'Q/A Radio',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (builder) => DuaAndHadith()));
-                            },
-                            child: Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 255, 255, 0.25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Image.asset('assets/ram.png'),
-                            ),
-                          ),
-                          Text(
-                            'Dua/Hadiths',
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (builder) => Qibla()));
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 255, 255, 0.25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Image.asset(
-                                'assets/qib.png',
-                              ),
-                            ),
-                            Text(
-                              'Qibla',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (builder) => Settings()));
-                        },
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 255, 255, 0.25),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Image.asset(
-                                'assets/sett.png',
-                              ),
-                            ),
-                            Text(
-                              'Setting',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+   ),
+  
+                
+              ],
             ),
-          ),
         ),
-      ),
+        ),
+      
     );
   }
 }

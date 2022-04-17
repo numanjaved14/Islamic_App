@@ -1,101 +1,143 @@
-class QuranTextModel {
+// To parse this JSON data, do
+//
+//     final quranModel = quranModelFromJson(jsonString);
+
+import 'dart:convert';
+
+QuranModel quranModelFromJson(String str) =>
+    QuranModel.fromJson(json.decode(str));
+
+String quranModelToJson(QuranModel data) => json.encode(data.toJson());
+
+class QuranModel {
+  QuranModel({
+    this.code,
+    this.status,
+    this.data,
+  });
+
   int? code;
   String? status;
   Data? data;
 
-  QuranTextModel({this.code, this.status, this.data});
+  factory QuranModel.fromJson(Map<String, dynamic> json) => QuranModel(
+        code: json["code"],
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+      );
 
-  QuranTextModel.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    status = json['status'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "code": code,
+        "status": status,
+        "data": data!.toJson(),
+      };
 }
 
 class Data {
-  List<Surahs>? surahs;
+  Data({
+    this.surahs,
+    this.edition,
+  });
+
+  List<Surah>? surahs;
   Edition? edition;
 
-  Data({this.surahs, this.edition});
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        surahs: List<Surah>.from(json["surahs"].map((x) => Surah.fromJson(x))),
+        edition: Edition.fromJson(json["edition"]),
+      );
 
-  Data.fromJson(Map<String, dynamic> json) {
-    if (json['surahs'] != null) {
-      surahs = <Surahs>[];
-      json['surahs'].forEach((v) {
-        surahs!.add(new Surahs.fromJson(v));
-      });
-    }
-    edition =
-        json['edition'] != null ? new Edition.fromJson(json['edition']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.surahs != null) {
-      data['surahs'] = this.surahs!.map((v) => v.toJson()).toList();
-    }
-    if (this.edition != null) {
-      data['edition'] = this.edition!.toJson();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "surahs": List<dynamic>.from(surahs!.map((x) => x.toJson())),
+        "edition": edition!.toJson(),
+      };
 }
 
-class Surahs {
+class Edition {
+  Edition({
+    this.identifier,
+    this.language,
+    this.name,
+    this.englishName,
+    this.format,
+    this.type,
+  });
+
+  String? identifier;
+  String? language;
+  String? name;
+  String? englishName;
+  String? format;
+  String? type;
+
+  factory Edition.fromJson(Map<String, dynamic> json) => Edition(
+        identifier: json["identifier"],
+        language: json["language"],
+        name: json["name"],
+        englishName: json["englishName"],
+        format: json["format"],
+        type: json["type"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "identifier": identifier,
+        "language": language,
+        "name": name,
+        "englishName": englishName,
+        "format": format,
+        "type": type,
+      };
+}
+
+class Surah {
+  Surah({
+    this.number,
+    this.name,
+    this.englishName,
+    this.englishNameTranslation,
+    this.revelationType,
+    this.ayahs,
+  });
+
   int? number;
   String? name;
   String? englishName;
   String? englishNameTranslation;
-  String? revelationType;
-  List<Ayahs>? ayahs;
+  RevelationType? revelationType;
+  List<Ayah>? ayahs;
 
-  Surahs(
-      {this.number,
-      this.name,
-      this.englishName,
-      this.englishNameTranslation,
-      this.revelationType,
-      this.ayahs});
+  factory Surah.fromJson(Map<String, dynamic> json) => Surah(
+        number: json["number"],
+        name: json["name"],
+        englishName: json["englishName"],
+        englishNameTranslation: json["englishNameTranslation"],
+        revelationType: revelationTypeValues.map[json["revelationType"]],
+        ayahs: List<Ayah>.from(json["ayahs"].map((x) => Ayah.fromJson(x))),
+      );
 
-  Surahs.fromJson(Map<String, dynamic> json) {
-    number = json['number'];
-    name = json['name'];
-    englishName = json['englishName'];
-    englishNameTranslation = json['englishNameTranslation'];
-    revelationType = json['revelationType'];
-    if (json['ayahs'] != null) {
-      ayahs = <Ayahs>[];
-      json['ayahs'].forEach((v) {
-        ayahs!.add(new Ayahs.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['number'] = this.number;
-    data['name'] = this.name;
-    data['englishName'] = this.englishName;
-    data['englishNameTranslation'] = this.englishNameTranslation;
-    data['revelationType'] = this.revelationType;
-    if (this.ayahs != null) {
-      data['ayahs'] = this.ayahs!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "number": number,
+        "name": name,
+        "englishName": englishName,
+        "englishNameTranslation": englishNameTranslation,
+        "revelationType": revelationTypeValues.reverse[revelationType],
+        "ayahs": List<dynamic>.from(ayahs!.map((x) => x.toJson())),
+      };
 }
 
-class Ayahs {
+class Ayah {
+  Ayah({
+    this.number,
+    this.text,
+    this.numberInSurah,
+    this.juz,
+    this.manzil,
+    this.page,
+    this.ruku,
+    this.hizbQuarter,
+    this.sajda,
+  });
+
   int? number;
   String? text;
   int? numberInSurah;
@@ -104,79 +146,72 @@ class Ayahs {
   int? page;
   int? ruku;
   int? hizbQuarter;
-  bool? sajda;
+  dynamic sajda;
 
-  Ayahs(
-      {this.number,
-      this.text,
-      this.numberInSurah,
-      this.juz,
-      this.manzil,
-      this.page,
-      this.ruku,
-      this.hizbQuarter,
-      this.sajda});
+  factory Ayah.fromJson(Map<String, dynamic> json) => Ayah(
+        number: json["number"],
+        text: json["text"],
+        numberInSurah: json["numberInSurah"],
+        juz: json["juz"],
+        manzil: json["manzil"],
+        page: json["page"],
+        ruku: json["ruku"],
+        hizbQuarter: json["hizbQuarter"],
+        sajda: json["sajda"],
+      );
 
-  Ayahs.fromJson(Map<String, dynamic> json) {
-    number = json['number'];
-    text = json['text'];
-    numberInSurah = json['numberInSurah'];
-    juz = json['juz'];
-    manzil = json['manzil'];
-    page = json['page'];
-    ruku = json['ruku'];
-    hizbQuarter = json['hizbQuarter'];
-    sajda = json['sajda'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['number'] = this.number;
-    data['text'] = this.text;
-    data['numberInSurah'] = this.numberInSurah;
-    data['juz'] = this.juz;
-    data['manzil'] = this.manzil;
-    data['page'] = this.page;
-    data['ruku'] = this.ruku;
-    data['hizbQuarter'] = this.hizbQuarter;
-    data['sajda'] = this.sajda;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "number": number,
+        "text": text,
+        "numberInSurah": numberInSurah,
+        "juz": juz,
+        "manzil": manzil,
+        "page": page,
+        "ruku": ruku,
+        "hizbQuarter": hizbQuarter,
+        "sajda": sajda,
+      };
 }
 
-class Edition {
-  String? identifier;
-  String? language;
-  String? name;
-  String? englishName;
-  String? format;
-  String? type;
+class SajdaClass {
+  SajdaClass({
+    this.id,
+    this.recommended,
+    this.obligatory,
+  });
 
-  Edition(
-      {this.identifier,
-      this.language,
-      this.name,
-      this.englishName,
-      this.format,
-      this.type});
+  int? id;
+  bool? recommended;
+  bool? obligatory;
 
-  Edition.fromJson(Map<String, dynamic> json) {
-    identifier = json['identifier'];
-    language = json['language'];
-    name = json['name'];
-    englishName = json['englishName'];
-    format = json['format'];
-    type = json['type'];
-  }
+  factory SajdaClass.fromJson(Map<String, dynamic> json) => SajdaClass(
+        id: json["id"],
+        recommended: json["recommended"],
+        obligatory: json["obligatory"],
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['identifier'] = this.identifier;
-    data['language'] = this.language;
-    data['name'] = this.name;
-    data['englishName'] = this.englishName;
-    data['format'] = this.format;
-    data['type'] = this.type;
-    return data;
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "recommended": recommended,
+        "obligatory": obligatory,
+      };
+}
+
+enum RevelationType { MECCAN, MEDINAN }
+
+final revelationTypeValues = EnumValues(
+    {"Meccan": RevelationType.MECCAN, "Medinan": RevelationType.MEDINAN});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String>? reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap!;
   }
 }

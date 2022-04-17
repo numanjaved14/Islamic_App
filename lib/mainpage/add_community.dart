@@ -115,6 +115,7 @@ class _AddCommunityState extends State<AddCommunity> {
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: 'Title',
+                    hintStyle: TextStyle( fontFamily: 'Gilroy',),
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -124,7 +125,7 @@ class _AddCommunityState extends State<AddCommunity> {
               ),
               ElevatedButton(
                 onPressed: () => submit(_titleController.text, _image!),
-                child: const Text('Submit'),
+                child: const Text('Submit',style: TextStyle(  fontFamily: 'Gilroy',),),
                 style: ElevatedButton.styleFrom(
                     shape: StadiumBorder(),
                     fixedSize: Size(200, 60),

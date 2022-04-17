@@ -49,13 +49,13 @@ class _HadithsState extends State<Hadiths> {
                             ),
                           ),
                         ),
-                        Text(
-                          'Hadith',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22),
-                        ),
+                        Text('Hadith',
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontStyle: FontStyle.normal)),
                         Text(
                           '',
                           style: TextStyle(
@@ -130,12 +130,13 @@ class _HadithsState extends State<Hadiths> {
                                       Container(
                                           margin: EdgeInsets.only(
                                               left: 20, top: 20),
-                                          child: Text(
-                                            items[index].arDua!,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.black),
-                                          ))
+                                          child: Text(items[index].arDua!,
+                                              style: TextStyle(
+                                                  fontFamily: 'Gilroy',
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black,
+                                                  fontStyle: FontStyle.normal)))
                                     ],
                                   ),
                                 );

@@ -18,8 +18,8 @@ class _MainScreenState extends State<MainScreen> {
   int currentTab = 0; // to keep track of active tab index
   final List<Widget> screens = [
     MyHomePage(),
-    Community(),
-    IslamFeed(),
+  IslamFeed(),
+   Community(),
     Settings()
   ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
@@ -30,6 +30,8 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+              backgroundColor: Colors.transparent,
+
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (builder) => Qibla()));
@@ -37,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
           child:
               //  Icon(Icons.add),
               Image.asset(
-            'assets/icons.png',
+            'assets/group.png',
             height: 120,
             width: 120,
           )),
@@ -46,8 +48,7 @@ class _MainScreenState extends State<MainScreen> {
         bucket: bucket,
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(), //shape of notch
-        notchMargin: 5, //
+
         color: Color(0xff321410),
         child: Container(
           height: 60,
@@ -74,9 +75,13 @@ class _MainScreenState extends State<MainScreen> {
                           ? Color(0xff3f48cc)
                           : Color(0xff8d8282),
                     ),
+                
+                
+                
                     Text(
                       'Home',
                       style: TextStyle(
+                         fontFamily: 'Gilroy',
                         fontSize: 10,
                         color: currentTab == 0
                             ? Color(0xff3f48cc)
@@ -92,23 +97,20 @@ class _MainScreenState extends State<MainScreen> {
                 onPressed: () {
                   setState(() {
                     currentScreen =
-                        Community(); // if user taps on this dashboard tab will be active
+                         IslamFeed();
+                         // if user taps on this dashboard tab will be active
                     currentTab = 1;
                   });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // currentTab == 1 ? Image.asset('assets/ordersred.png',height: 30,width: 30,) : Image.asset('assets/orderswhite.png',height: 30,width: 30,)
-                    Icon(
-                      Icons.group,
-                      color: currentTab == 1
-                          ? Color(0xff3f48cc)
-                          : Color(0xff8d8282),
-                    ),
+                   Image.asset('assets/livevideo.png',height: 30,width: 30,),
+                   
                     Text(
-                      'Community',
+                      'Islamfeed',
                       style: TextStyle(
+                         fontFamily: 'Gilroy',
                         fontSize: 10,
                         color: currentTab == 1
                             ? Color(0xff3f48cc)
@@ -123,23 +125,19 @@ class _MainScreenState extends State<MainScreen> {
                 onPressed: () {
                   setState(() {
                     currentScreen =
-                        IslamFeed(); // if user taps on this dashboard tab will be active
+                        Community(); // if user taps on this dashboard tab will be active
                     currentTab = 2;
                   });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    //  currentTab == 2 ? Image.asset('assets/chatred.png',height: 30,width: 30,) : Image.asset('assets/chatwhite.png',height: 30,width: 30,)
-                    Icon(
-                      Icons.video_call,
-                      color: currentTab == 2
-                          ? Color(0xff3f48cc)
-                          : Color(0xff8d8282),
-                    ),
+                Image.asset('assets/com.png',height: 30,width: 30,),
+                    
                     Text(
-                      'Islamic Feed',
+                      'Community',
                       style: TextStyle(
+                         fontFamily: 'Gilroy',
                         fontSize: 10,
                         color: currentTab == 2
                             ? Color(0xff3f48cc)
@@ -172,6 +170,7 @@ class _MainScreenState extends State<MainScreen> {
                     Text(
                       'Profile',
                       style: TextStyle(
+                         fontFamily: 'Gilroy',
                         color: currentTab == 3
                             ? Color(0xff3f48cc)
                             : Color(0xff8d8282),

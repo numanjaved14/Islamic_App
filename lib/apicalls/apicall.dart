@@ -47,8 +47,8 @@ class ApiCalls {
   //   return dua;
   // }
 
-  Future<QuranTextModel> getQuranText() async {
-    var response = await client.get(Uri.parse(''));
+  Future<QuranModel> getQuranText() async {
+    var response = await client.get(Uri.parse(Strings.quranTextUthmaniUrl));
     var quranText = null;
 
     try {
@@ -56,7 +56,7 @@ class ApiCalls {
         var jsonString = response.body;
         var jsonMap = json.decode(jsonString);
 
-        quranText = QuranTextModel.fromJson(jsonMap);
+        quranText = QuranModel.fromJson(jsonMap);
       }
     } catch (exception) {
       print(exception);
@@ -139,7 +139,7 @@ class ApiCalls {
 
     final response = await http.get(Uri.parse(
         "https://api.aladhan.com/v1/timingsByAddress?address=$address"));
-    print(response.body);
+    // print(response.body);
 
     return PrayerTimeModel.fromJson(jsonDecode(response.body));
   }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:islamicapp/authentications/providers/user_provider.dart';
 import 'package:islamicapp/authentications/signinpage.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,8 @@ Future<FirebaseApp> intialize = Firebase.initializeApp();
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Scaffold(
-              body: Text("${snapshot.error}"),
+              body: Text("${snapshot.error}",style: GoogleFonts.lato(fontStyle: FontStyle.italic),
+),
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {

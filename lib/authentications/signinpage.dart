@@ -49,11 +49,19 @@ class _SigninpageState extends State<Signinpage> {
                       margin: EdgeInsets.only(left: 30, right: 30, top: 68,bottom: 20),
                       child: Text(
                         'Welcome\n Islamic Prayer App',
-                        style: GoogleFonts.getFont('Montserrat',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontStyle: FontStyle.normal),
+                        
+                        style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontStyle: FontStyle.normal
+                    )
+                        //  GoogleFonts.getFont('Montserrat',
+                        //     fontWeight: FontWeight.w600,
+                        //     color: Colors.white,
+                        //     fontSize: 26,
+                        //     fontStyle: FontStyle.normal),
                       ),
                     ),
                     Container(
@@ -77,16 +85,26 @@ class _SigninpageState extends State<Signinpage> {
                               left: 20,
                             ),
                             border: InputBorder.none,
-                            labelStyle: GoogleFonts.getFont('Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontStyle: FontStyle.normal),
-                            hintStyle: GoogleFonts.getFont('Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xff8D8989),
-                                fontSize: 12,
-                                fontStyle: FontStyle.normal),
+                            labelStyle: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontStyle: FontStyle.normal
+                    ),
+                            hintStyle: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff8D8989),
+                      fontStyle: FontStyle.normal
+                    )
+                            
+                            // GoogleFonts.getFont('Montserrat',
+                            //     fontWeight: FontWeight.w600,
+                            //     color: const Color(0xff8D8989),
+                            //     fontSize: 12,
+                            //     fontStyle: FontStyle.normal),
                           ),
                         )),
                     Container(
@@ -120,18 +138,14 @@ class _SigninpageState extends State<Signinpage> {
                             contentPadding: EdgeInsets.only(top: 20, left: 20),
                             border: InputBorder.none,
                             fillColor: Colors.white,
-                            hintStyle: GoogleFonts.getFont('Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff8D8989),
-                                fontSize: 12,
-                                fontStyle: FontStyle.normal),
-                            // hintStyle: TextStyle(
-
-                            //   color: Color(0xff8D8989), // <-- Change this
-                            //   fontSize: 12,
-                            //   fontWeight: FontWeight.w600,
-                            //   fontStyle: FontStyle.normal,
-                            // ),
+                              hintStyle: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff8D8989),
+                      fontStyle: FontStyle.normal
+                    )
+                           
                           ),
                         )),
                   ],
@@ -171,11 +185,18 @@ class _SigninpageState extends State<Signinpage> {
                   },
                   child: Text(
                     'Sign In',
-                    style: GoogleFonts.getFont('Montserrat',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontStyle: FontStyle.normal),
+                    style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontStyle: FontStyle.normal
+                    )
+                    
+                    //  GoogleFonts.getFont('Montserrat',
+                    //     fontWeight: FontWeight.w600,
+                    //     color: Colors.white,
+                    //     fontSize: 15,
+                    //     fontStyle: FontStyle.normal),
                   ),
                 ),
               ),
@@ -191,11 +212,17 @@ class _SigninpageState extends State<Signinpage> {
                           },
                           child: Text(
                             'Sign Up',
-                            style: GoogleFonts.getFont('Montserrat',
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffEB5757),
-                                fontSize: 15,
-                                fontStyle: FontStyle.normal),
+                            style: 
+                              TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xffEB5757),
+                      fontStyle: FontStyle.normal
+                    )
+                            
+                            
+                          
                           )))),
             ],
           ),

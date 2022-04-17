@@ -50,11 +50,12 @@ class CommunityWidget extends StatelessWidget {
           Text(
             snap['title'],
             style: TextStyle(
+               fontFamily: 'Gilroy',
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Text(
             snap['dateTime'],
-            style: TextStyle(color: Colors.grey, fontSize: 16),
+            style: TextStyle(color: Colors.grey, fontSize: 16, fontFamily: 'Gilroy',),
           ),
         ],
       ),

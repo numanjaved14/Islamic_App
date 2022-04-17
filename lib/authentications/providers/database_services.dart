@@ -13,7 +13,6 @@ import 'package:islamicapp/authentications/providers/models/add_commit.dart';
 import 'package:islamicapp/authentications/providers/models/add_qari_feed_model.dart';
 import 'package:islamicapp/authentications/providers/usermodel.dart';
 
-import '../../qibla_direction/flutter_qiblah.dart';
 
 class DataBaseMethods {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -168,10 +167,20 @@ class DataBaseMethods {
   Future<String> uploadMosque(
       {required String mosque,
       required String qari,
-      required String location}) async {
+      required String bio,
+      required String location,
+      required Uint8List file}) async {
     String res = 'Some error occured.';
     try {
-      if (mosque.isNotEmpty || qari.isNotEmpty || location.isNotEmpty) {
+      if (mosque.isNotEmpty ||
+          qari.isNotEmpty ||
+          location.isNotEmpty ||
+          bio.isNotEmpty ||
+          file != null) {
+        String photoUrl = await uploadImageToStorage(
+          'QariFeed',
+          file,
+        );
         // final locationStatus = await FlutterQiblah.checkLocationStatus();
         // if (locationStatus.enabled) {
         //   var position = await Geolocator.getCurrentPosition();
@@ -180,6 +189,8 @@ class DataBaseMethods {
           location: location,
           mosqueName: mosque,
           qariName: qari,
+          photoUrl: photoUrl,
+          qariBio: bio,
           // locationCo_ordinate: position,
         );
 

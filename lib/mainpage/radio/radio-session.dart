@@ -14,7 +14,7 @@ class _RadioSessionsState extends State<RadioSessions> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color(0xff350801), 
+          backgroundColor: Colors.transparent,
           leading: Container(
             padding: EdgeInsets.only(top: 8,bottom: 8),
                       child: InkWell(
@@ -67,12 +67,15 @@ class _RadioSessionsState extends State<RadioSessions> {
                             ),
                             label: Text('Live Quran',
                                 style: TextStyle(
+                                  fontFamily: 'Gilroy',
                                   color: Colors.white,
                                 )),
                           ),
                         ))
                     ],
         ),
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         body: Container(
           
           width: MediaQuery.of(context).size.width,
@@ -84,51 +87,54 @@ class _RadioSessionsState extends State<RadioSessions> {
                 ),
                 fit: BoxFit.cover),
           ),
-          child: Column(
-            children: [
-             
-              Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red
-                      // border: Border.all(
-                      //     style: BorderStyle.solid,
-                      //     width: 2,
-                      //     color: Colors.red)
-                          ),
-                  margin: EdgeInsets.only(top: 20),
-                  child: Image.asset(
-                    'assets/logo.png',
-                    width: 200,
-                    height: 200,
-                  )),
-              Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'JOIN',
-                      style: TextStyle(color: Color(0xff3F48CC), 
-                      
-                      
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      
-                      fixedSize: Size(150, 50),
-                      primary: Colors.white,shape: StadiumBorder()),
-                  )),
-
-                  Container(
+          child: Container(
+            margin: EdgeInsets.only(top: 50),
+            child: Column(
+              children: [
+               
+                Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10)
+                      color: Colors.red
+                        // border: Border.all(
+                        //     style: BorderStyle.solid,
+                        //     width: 2,
+                        //     color: Colors.red)
+                            ),
+                    margin: EdgeInsets.only(top: 20),
+                    child: Image.asset(
+                      'assets/logo.png',
+                      width: 200,
+                      height: 200,
+                    )),
+                Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'JOIN',
+                        style: TextStyle(color: Color(0xff3F48CC), 
+                        
+                        
+                        ),
                       ),
-                      color: Colors.white
-                    ),
-                    
-                  )
-            ],
+                      style: ElevatedButton.styleFrom(
+                        
+                        fixedSize: Size(150, 50),
+                        primary: Colors.white,shape: StadiumBorder()),
+                    )),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)
+                        ),
+                        color: Colors.white
+                      ),
+                      
+                    )
+              ],
+            ),
           ),
         ),
       ),

@@ -15,7 +15,7 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-           backgroundColor: Color(0xff350801), 
+           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Padding(
             padding:  EdgeInsets.only(top:8.0,bottom: 8),
@@ -40,6 +40,7 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                     title: Text(
                       'Dua/Hadiths',
                       style: TextStyle(
+                         fontFamily: 'Gilroy',
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 22),
@@ -47,6 +48,8 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                     centerTitle: true,
         ),
         backgroundColor: Colors.white,
+        extendBody:true,
+        extendBodyBehindAppBar: true,
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -56,97 +59,100 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                     "assets/back.png",
                   ),
                   fit: BoxFit.cover)),
-          child: Column(
-            children: [
-             
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (builder) => Duas()));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  margin: EdgeInsets.only(left: 10, right: 10,top: 20),
-                  width: MediaQuery.of(context).size.width,
-                  height: 150,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                           Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xff3F48CC),
-                                    borderRadius: BorderRadius.circular(20)),
-                                margin:
-                                    EdgeInsets.only(top: 10, bottom: 10,left: 10,right: 10),
-                                child: Image.asset(
-                                  'assets/ramadan.png',
-                                  width: 130,
+          child: Container(
+            margin: EdgeInsets.only(top: 50),
+            child: Column(
+              children: [
+               
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (builder) => Duas()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    margin: EdgeInsets.only(left: 10, right: 10,top: 20),
+                    width: MediaQuery.of(context).size.width,
+                    height: 150,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                             Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff3F48CC),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  margin:
+                                      EdgeInsets.only(top: 10, bottom: 10,left: 10,right: 10),
+                                  child: Image.asset(
+                                    'assets/ramadan.png',
+                                    width: 130,
+                                  ),
                                 ),
-                              ),
-                           
-                          
-                           Expanded(child: 
-                           Column(
-                             children: [
-                               Text("Dua's",style: TextStyle(color: Color(0xff555555),fontSize: 30,fontWeight: FontWeight.bold),),
-                               SizedBox(height: 10,),
-                               Text('Lorem Ipsum as their default and a search for')
-                             ],
-                           ))
-              
-                        ],
-                      )
-                    ],
+                             
+                            
+                             Expanded(child: 
+                             Column(
+                               children: [
+                                 Text("Dua's",style: TextStyle(color: Color(0xff555555), fontFamily: 'Gilroy',fontSize: 30,fontWeight: FontWeight.bold),),
+                                 SizedBox(height: 10,),
+                                 Text('Lorem Ipsum as their default and a search for',style: TextStyle( fontFamily: 'Gilroy',),)
+                               ],
+                             ))
+                
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (builder) => Hadiths()));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  margin: EdgeInsets.only(left: 10, right: 10,top: 20),
-                  width: MediaQuery.of(context).size.width,
-                  height: 150,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                           Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xff3F48CC),
-                                    borderRadius: BorderRadius.circular(20)),
-                                margin:
-                                    EdgeInsets.only(top: 10, bottom: 10,left: 10,right: 10),
-                                child: Image.asset(
-                                  'assets/quran.png',
-                                  width: 130,
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (builder) => Hadiths()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    margin: EdgeInsets.only(left: 10, right: 10,top: 20),
+                    width: MediaQuery.of(context).size.width,
+                    height: 150,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                             Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff3F48CC),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  margin:
+                                      EdgeInsets.only(top: 10, bottom: 10,left: 10,right: 10),
+                                  child: Image.asset(
+                                    'assets/quran.png',
+                                    width: 130,
+                                  ),
                                 ),
-                              ),
-                           
-                          
-                           Expanded(child: 
-                           Column(
-                             children: [
-                               Text("Hadiths",style: TextStyle(color: Color(0xff555555),fontSize: 30,fontWeight: FontWeight.bold),),
-                               SizedBox(height: 10,),
-                               Text('Lorem Ipsum as their default and a search for')
-                             ],
-                           ))
-              
-                        ],
-                      )
-                    ],
+                             
+                            
+                             Expanded(child: 
+                             Column(
+                               children: [
+                                 Text("Hadiths",style: TextStyle(color: Color(0xff555555), fontFamily: 'Gilroy',fontSize: 30,fontWeight: FontWeight.bold),),
+                                 SizedBox(height: 10,),
+                                 Text('Lorem Ipsum as their default and a search for',style: TextStyle( fontFamily: 'Gilroy',),)
+                               ],
+                             ))
+                
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

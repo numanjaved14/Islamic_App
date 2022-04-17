@@ -61,9 +61,11 @@ class _DuasState extends State<Duas> {
                         Text(
                           'Duas',
                           style: TextStyle(
-                              color: Colors.white,
+                              fontFamily: 'Gilroy',
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              fontSize: 22),
+                              color: Colors.white,
+                              fontStyle: FontStyle.normal),
                         ),
                         Text(
                           '',
@@ -104,8 +106,16 @@ class _DuasState extends State<Duas> {
                                       child: Row(
                                         children: [
                                           Container(
-                                              margin: EdgeInsets.only(left: 20),
-                                              child: Text(items[index].id!)),
+                                            margin: EdgeInsets.only(left: 20),
+                                            child: Text(items[index].id!,
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                    fontStyle:
+                                                        FontStyle.normal)),
+                                          ),
                                           Spacer(),
                                           Icon(Icons.share,
                                               color: Color.fromARGB(
@@ -135,12 +145,13 @@ class _DuasState extends State<Duas> {
                                     Container(
                                         margin:
                                             EdgeInsets.only(left: 20, top: 20),
-                                        child: Text(
-                                          items[index].dua!,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.black),
-                                        ))
+                                        child: Text(items[index].dua!,
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                                fontStyle: FontStyle.normal)))
                                   ],
                                 ),
                               );

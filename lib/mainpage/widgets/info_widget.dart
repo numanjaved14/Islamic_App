@@ -18,11 +18,11 @@ class InfoWidget extends StatelessWidget {
         ),
         title: Text(
           snap['username'],
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontFamily: 'Gilroy',),
         ),
         subtitle: Text(
           snap['email'],
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontFamily: 'Gilroy',),
         ),
       ),
     );

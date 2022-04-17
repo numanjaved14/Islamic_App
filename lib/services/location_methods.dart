@@ -1,7 +1,7 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:islamicapp/services/qibla_direction/flutter_qiblah.dart';
 
-import '../qibla_direction/flutter_qiblah.dart';
 
 class LocationMethods {
   Future<String?> checkLocationStatus() async {

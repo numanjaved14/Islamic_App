@@ -57,13 +57,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Text(
                       'Create an account',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.getFont(
-                        'Montserrat',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontStyle: FontStyle.normal,
-                      ),
+                      style:
+                             TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 32,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontStyle: FontStyle.normal
+                    )
+                      
+                       
                     ),
                   ),
                   
@@ -97,11 +100,14 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white,
                               fontSize: 12,
                               fontStyle: FontStyle.normal),
-                          hintStyle: GoogleFonts.getFont('Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xff8D8989),
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal),
+                         hintStyle:          TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color:   Color(0xff8D8989),
+                      fontStyle: FontStyle.normal
+                    )
+                         
                         ),
                       )),
                   Container(
@@ -134,11 +140,13 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white,
                               fontSize: 12,
                               fontStyle: FontStyle.normal),
-                          hintStyle: GoogleFonts.getFont('Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xff8D8989),
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal),
+                            hintStyle:          TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color:   Color(0xff8D8989),
+                      fontStyle: FontStyle.normal
+                    )
                         ),
                       )),
                   Container(
@@ -179,11 +187,13 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white,
                               fontSize: 12,
                               fontStyle: FontStyle.normal),
-                          hintStyle: GoogleFonts.getFont('Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xff8D8989),
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal),
+                             hintStyle:          TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color:   Color(0xff8D8989),
+                      fontStyle: FontStyle.normal
+                    )
                         ),
                       )),
                 
@@ -215,11 +225,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       // },
                       child: Text(
                         'SignUp',
-                        style: GoogleFonts.getFont('Montserrat',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal),
+                          style:          TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontStyle: FontStyle.normal
+                    )
                       ),
                     ),
                   ),
@@ -235,11 +247,16 @@ class _SignUpPageState extends State<SignUpPage> {
                         },
                         child: Text(
                           'Sign In',
-                          style: GoogleFonts.getFont('Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xffEB5757),
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal),
+                             style:          TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xffEB5757),
+                      fontStyle: FontStyle.normal
+                    )
+                         
+                         
+                          
                         ),
                       ),
                     ),

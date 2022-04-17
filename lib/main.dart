@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          fontFamily: 'Montserrat',
+          
+          fontFamily: 'Gilroy',
           primarySwatch: Colors.red,
         ),
         home: LandingScreen(),
