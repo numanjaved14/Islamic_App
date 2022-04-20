@@ -98,7 +98,10 @@ class _CommunityState extends State<Community> {
                               return ListView.builder(
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return QariFeed(
+                                  return index == null ? Text(
+                                    'Data is Not Laded'
+                                  ): QariFeed(
+
                                     snap: snapshot.data!.docs[index].data(),
                                   );
                                 },

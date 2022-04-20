@@ -1,8 +1,10 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:islamicapp/authentications/landing_scr.dart';
 import 'package:islamicapp/authentications/providers/user_provider.dart';
+import 'package:islamicapp/mainpage/IslamicFeed/controllers/auth_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:returnpostuser/firebase_options.dart';
@@ -13,7 +15,10 @@ void main() async {
   //   await Firebase.initializeApp(
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp().then((value) {
+    Get.put(AuthController());
+  });
+  ;
 
   runApp(const MyApp());
 }
@@ -26,12 +31,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        
-        ],
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          
           fontFamily: 'Gilroy',
           primarySwatch: Colors.red,
         ),

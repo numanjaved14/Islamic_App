@@ -58,8 +58,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  // int _getSize(var size){
+  //   if(size.height > )
+  // }
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -271,14 +277,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                       },
                       children: [
-                        Column(
-                          children: [
-                            Row(
-                              
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                              
-                              Column(
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: [
+                              Row(
+                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+
                                 children: [
                                   InkWell(
                                     onTap: () {
@@ -311,14 +317,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                             color: Colors.white,
                                             fontFamily: 'Gilroy',
                                           ),
-                                          textAlign: TextAlign.center,
                                         )
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              InkWell(
+                                  InkWell(
                                     onTap: () {
                                       Navigator.push(
                                           context,
@@ -343,6 +346,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 Image.asset('assets/mos.png'),
                                           ),
                                         ),
+                                        SizedBox(height: 6,),
                                         Text(
                                           'Prayer Times',
                                           style: TextStyle(
@@ -354,13 +358,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ],
                                     ),
                                   ),
-                                   InkWell(
+                                  InkWell(
                                     onTap: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (builder) =>
-                                                  RadioSessions()));
+                                              builder: (builder) => RadioSessions()));
                                     },
                                     child: Column(
                                       children: [
@@ -374,9 +377,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 BorderRadius.circular(20),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child:
-                                                Image.asset('assets/radio.png'),
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Image.asset(
+                                              'assets/radio.png',
+                                            ),
                                           ),
                                         ),
                                         Text(
@@ -389,22 +393,25 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ],
                                     ),
                                   ),
-                            ],),
-                            SizedBox(height: 20,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Column(
-                                  children: [
-                                    InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (builder) =>
-                                                      DuaAndHadith()));
-                                        },
-                                        child: Container(
+                                  
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                 InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (builder) => DuaAndHadith()));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
                                           width: 70,
                                           height: 70,
                                           decoration: BoxDecoration(
@@ -415,23 +422,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.all(10.0),
-                                            child:
-                                                Image.asset('assets/ram.png'),
+                                            child: Image.asset(
+                                              'assets/ram.png',
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Dua/Hadiths',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Gilroy',
-                                        ),
-                                      )
-                                    ],
+                                        Text(
+                                          'Dua/Hadiths',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Gilroy',
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  Column(
-                                    children: [
-                                        InkWell(
+                                InkWell(
                                     onTap: () {
                                       Navigator.push(
                                           context,
@@ -466,17 +472,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ],
                                     ),
                                   ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      InkWell(
+                                   InkWell(
                                     onTap: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (builder) =>
-                                                  Settings()));
+                                              builder: (builder) => Settings()));
                                     },
                                     child: Column(
                                       children: [
@@ -503,13 +504,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                             fontFamily: 'Gilroy',
                                           ),
                                         )
-                                    ],
-                                  )
-                                   ) ],)
-                               ] )
-                              ],
-                            ),
-                            Column(
+                                      ],
+                                    ),
+                                  ),
+                              ],)
+                            ],
+                          )
+                        ),
+                          
+                           Column(
                           children: [
                             Expanded(
                               child: Column(
@@ -750,9 +753,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
-                          ],
-                        )
-                      
+                      ]),
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 200),
