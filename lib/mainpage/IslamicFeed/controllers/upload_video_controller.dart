@@ -49,7 +49,7 @@ class UploadVideoController extends GetxController {
       String thumbnail = await _uploadImageToStorage("Video $len", videoPath);
 
       Video video = Video(
-        username: (userDoc.data()! as Map<String, dynamic>)['name'],
+        username: (userDoc.data()! as Map<String, dynamic>)['username'],
         uid: uid,
         id: "Video $len",
         likes: [],
@@ -58,7 +58,9 @@ class UploadVideoController extends GetxController {
         songName: songName,
         caption: caption,
         videoUrl: videoUrl,
-        profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
+        profilePhoto:
+            'https://i.pinimg.com/736x/38/8b/90/388b90700c857a689c599fd0db97e604.jpg',
+        // profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
         thumbnail: thumbnail,
       );
 

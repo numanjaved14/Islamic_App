@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:islamicapp/authentications/providers/database_services.dart';
+import 'package:islamicapp/mainpage/IslamicFeed/views/screens/add_video_screen.dart';
 import 'package:islamicapp/mainpage/IslamicFeed/views/screens/video_screen.dart';
 import 'package:islamicapp/mainpage/account_info.dart';
+import 'package:islamicapp/mainpage/qurans/sh/qari_screen.dart';
 
 import '../widgets/info_widget.dart';
 
@@ -25,16 +27,14 @@ class _SettingsState extends State<Settings> {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            leading: Container(
-              padding: EdgeInsets.only(top: 8, bottom: 8),
-              child: InkWell(
+            leading: InkWell(
                 onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  margin: EdgeInsets.only(left: 10),
-                  width: 50,
-                  height: 50,
+                  margin: EdgeInsets.only(left: 5,top: 8),
+                  width: 48,
+                  height: 48,
                   decoration: BoxDecoration(
                       color: Color(0xff45211a),
                       borderRadius: BorderRadius.circular(15)),
@@ -42,7 +42,7 @@ class _SettingsState extends State<Settings> {
                     Icons.arrow_back,
                     color: Colors.white,
                   ),
-                ),
+                
               ),
             ),
             centerTitle: true,
@@ -122,6 +122,7 @@ class _SettingsState extends State<Settings> {
                       print('The screen is called');
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => VideoScreen(),
+                        // builder: (context) => QariListScreen(),
                       ));
                     },
                     child: ListTile(

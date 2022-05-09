@@ -1,10 +1,14 @@
 import 'dart:math';
 
+import 'package:adhan_dart/adhan_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:islamicapp/apicalls/apicall.dart';
 import 'package:intl/intl.dart';
 import 'package:islamicapp/mainpage/settings/settings.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
+import '../NotificationSchedule/notificationschedule.dart';
 import '../models/prayertimemodel.dart';
 import '../services/location_methods.dart';
 
@@ -52,30 +56,34 @@ class _PrayersTimesState extends State<PrayersTimes> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    tz.initializeTimeZones();
+    final location = tz.getLocation('America/New_York');
+    DateTime date = tz.TZDateTime.from(DateTime.now(), location);
+
+    final myCoordinates = Coordinates(31.418592286661443,
+        73.07903766632081); // Replace with your own location lat, lng.
+    final params = CalculationMethod.Karachi();
+    params.madhab = Madhab.Hanafi;
+    final prayerTimes = PrayerTimes(myCoordinates, date, params);
+
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (builder) => Settings()));
-                },
-                child: Container(
-                    height: 48,
-                    width: 48,
-                    decoration: BoxDecoration(
-                        color: Color(0xff441009),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.arrow_back)
-                    ))),
-          ),
-        ),
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+                margin: EdgeInsets.only(left: 5, top: 8),
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                    color: Color(0xff441009),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(Icons.arrow_back)))),
         centerTitle: true,
         title: Text(
           'Next prayer time',
@@ -86,330 +94,343 @@ class _PrayersTimesState extends State<PrayersTimes> {
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => Settings()));
-              },
-              child: Container(
-                height: 48,
-                width: 48,
-                decoration: BoxDecoration(
-                    color: Color(0xff441009),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(Icons.settings)),
-              ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (builder) => Settings()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 5, top: 8),
+              height: 48,
+              width: 48,
+              decoration: BoxDecoration(
+                  color: Color(0xff441009),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(Icons.settings)),
             ),
-          )
+          ),
         ],
       ),
-       extendBody: true,
+      extendBody: true,
       extendBodyBehindAppBar: true,
       body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                    cPrayer == 'Fajr'
-                        ? "assets/fajr_back.png"
-                        : cPrayer == 'Dhuhr'
-                            ? "assets/duhr_back.png"
-                            : cPrayer == 'Asar'
-                                ? "assets/asr_back.png"
-                                : cPrayer == 'Maghrib'
-                                    ? "assets/maghrib_back.png"
-                                    : "assets/isha_back.png",
-                  ),
-                  fit: BoxFit.cover)),
-          child: SafeArea(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // Spacer(),
-      
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                child: StreamBuilder<PrayerTimeModel>(
-                    stream: ApiCalls().gettime(const Duration(seconds: 0)),
-                    builder: (context, AsyncSnapshot<PrayerTimeModel> snapshot) {
-                      if (snapshot.hasData) {
-                        PrayerTimeModel data = snapshot.data!;
-                        return Column(
-                          children: [
-                            SizedBox(
-                              height: 110,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        newdata.toString(),
-                                        style: TextStyle(color: Colors.white),
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                      margin: EdgeInsets.only(top: 14),
-                                      child: Text(
-                                        DateFormat.Hms().format(DateTime.now()),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                  Text(
-                                    cPrayer!,
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                                    'Today',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    data.data.date.hijri!.month!.number
-                                            .toString() +
-                                        '  ' +
-                                        data.data.date.hijri!.month!.en
-                                            .toString(),
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                            SizedBox(
-                              height:20,
-                            ),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  cPrayer == 'Fajr'
+                      ? "assets/fajr_back.png"
+                      : cPrayer == 'Dhuhr'
+                          ? "assets/duhr_back.png"
+                          : cPrayer == 'Asar'
+                              ? "assets/asr_back.png"
+                              : cPrayer == 'Maghrib'
+                                  ? "assets/maghrib_back.png"
+                                  : "assets/isha_back.png",
+                ),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            // Spacer(),
 
-                          
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: StreamBuilder<PrayerTimeModel>(
+                  stream: ApiCalls().gettime(const Duration(seconds: 0)),
+                  builder: (context, AsyncSnapshot<PrayerTimeModel> snapshot) {
+                    if (snapshot.hasData) {
+                      PrayerTimeModel data = snapshot.data!;
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: 110,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      newdata.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  ],
+                                ),
                                 Container(
-                                  margin:
-                                      EdgeInsets.only(left: 15, right: 15, top: 15),
-                                  child:  Table(
-                                          children: [
-                                            TableRow(children: [
-                                              Column(children: [
-                                                Text('Fajr',
-                                                    style: TextStyle(
-                                                        color: Colors.white))
-                                              ]),
-                                               Column(children: [
-                                                Text('',
-                                                    style: TextStyle(
-                                                        color: Colors.white))
-                                              ]),
-                                              Column(children: [
-                                                Text(data.data.timings.fajr +' '+''+ '(AM)',
-                                                    style: TextStyle(
-                                                        color: Colors.white))
-                                              ]),
-                                             
-                                              Column(children: [
-                                                Icon(
-                                                  Icons.notifications,
-                                                  color: Colors.white,
-                                                )
-                                              ]),
-                                            ]),
-                                          ],
-                                        )
-                                  ),
-                             
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 15, right: 15, top: 15),
-                                child: Table(
-                                      children: [
-                                        TableRow(children: [
-                                          Column(children: [
-                                            Text('Dhuhr',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                           Column(children: [
-                                            Text('',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
+                                    margin: EdgeInsets.only(top: 14),
+                                    child: Text(
+                                      DateFormat.jms().format(DateTime.now()),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                Text(
+                                  cPrayer!,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            'Today',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            data.data.date.hijri!.month!.number.toString() +
+                                '  ' +
+                                data.data.date.hijri!.month!.en.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              margin:
+                                  EdgeInsets.only(left: 15, right: 15, top: 15),
+                              child: Table(
+                                children: [
+                                  TableRow(children: [
+                                    Column(children: [
+                                      Text('Fajr',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text('',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text(
+                                          data.data.timings.fajr +
+                                              ' ' +
+                                              '' +
+                                              '(AM)',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      InkWell(
+                                        onTap: () => ScheduleNotification()
+                                            .schedulefajrNotification(
+                                                prayerTimes),
+                                        child: Icon(
+                                          Icons.notifications,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ]),
+                                  ]),
+                                ],
+                              )),
+                          Container(
+                              margin:
+                                  EdgeInsets.only(left: 15, right: 15, top: 15),
+                              child: Table(
+                                children: [
+                                  TableRow(children: [
+                                    Column(children: [
+                                      Text('Dhuhr',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text('',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text(
+                                          data.data.timings.dhuhr +
+                                              ' ' +
+                                              '' +
+                                              '(PM)',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      InkWell(
+                                        onTap: () => ScheduleNotification()
+                                            .scheduleDuhrNotification(
+                                                prayerTimes),
+                                        child: Icon(
+                                          Icons.notifications,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ]),
+                                  ]),
+                                ],
+                              )),
+                          Container(
+                              margin:
+                                  EdgeInsets.only(left: 15, right: 15, top: 15),
+                              child: Table(
+                                children: [
+                                  TableRow(children: [
+                                    Column(children: [
+                                      Text('Asar',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text('',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text(
+                                          data.data.timings.asr +
+                                              ' ' +
+                                              '' +
+                                              '(PM)',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      InkWell(
+                                        onTap: () => ScheduleNotification()
+                                            .scheduleasrNotification(
+                                                prayerTimes),
+                                        child: Icon(
+                                          Icons.notifications,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ]),
+                                  ]),
+                                ],
+                              )),
+                          Container(
+                              margin:
+                                  EdgeInsets.only(left: 15, right: 15, top: 15),
+                              child: Table(
+                                children: [
+                                  TableRow(children: [
+                                    Column(children: [
+                                      Text('Maghrib',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text('',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text(
+                                          data.data.timings.maghrib +
+                                              ' ' +
+                                              '' +
+                                              '(PM)',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      InkWell(
+                                        onTap: () => ScheduleNotification()
+                                            .scheduleMaghribNotification(
+                                                prayerTimes),
+                                        child: Icon(
+                                          Icons.notifications,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ]),
+                                  ]),
+                                ],
+                              )),
+                          Container(
+                              margin:
+                                  EdgeInsets.only(left: 15, right: 15, top: 15),
+                              child: Table(
+                                children: [
+                                  TableRow(children: [
+                                    Column(children: [
+                                      Text('Isha',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text('',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      Text(
+                                          data.data.timings.isha +
+                                              ' ' +
+                                              '' +
+                                              '(PM)',
+                                          style: TextStyle(color: Colors.white))
+                                    ]),
+                                    Column(children: [
+                                      InkWell(
+                                        onTap: () => ScheduleNotification()
+                                            .scheduleIshaNotification(
+                                                prayerTimes),
+                                        child: Icon(
+                                          Icons.notifications,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ]),
+                                  ]),
+                                ],
+                              ))
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    //  Column(
+                    //    children: [
+                    //      SizedBox(height: 20,),
+                    //      Row(
+                    //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //        children: [
+                    //          Text('Dhuhr',style: TextStyle(color: Colors.white),),
+                    //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
+                    //          Icon(Icons.notifications,color: Colors.white,)
+                    //        ],
+                    //      ),
+                    //      SizedBox(height: 20,),
+                    //      Row(
+                    //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //        children: [
+                    //          Text('Asar',style: TextStyle(color: Colors.white),),
+                    //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
+                    //          Icon(Icons.notifications,color: Colors.white,)
+                    //        ],
+                    //      ),
+                    //      SizedBox(height: 20,),
+                    //      Row(
+                    //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //        children: [
+                    //          Text('Maghrib',style: TextStyle(color: Colors.white),),
+                    //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
+                    //          Icon(Icons.notifications,color: Colors.white,)
+                    //        ],
+                    //      ),
+                    //      SizedBox(height: 20,),
+                    //      Row(
+                    //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //        children: [
+                    //          Text('Isha',style: TextStyle(color: Colors.white),),
+                    //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
+                    //          Icon(Icons.notifications,color: Colors.white,)
+                    //        ],
+                    //      ),
+                    //      SizedBox(height: 20,),
+                    //    ],
+                    //  ),
+                    //  Spacer()
 
-                                          Column(children: [
-                                            Text(data.data.timings.dhuhr + ' '+''+ '(PM)',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Icon(
-                                              Icons.notifications,
-                                              color: Colors.white,
-                                            )
-                                          ]),
-                                        ]),
-                                      ],
-                                    )
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 15, right: 15, top: 15),
-                                child:Table(
-                                      children: [
-                                        TableRow(children: [
-                                          Column(children: [
-                                            Text('Asar',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                           Column(children: [
-                                            Text('',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-
-                                          Column(children: [
-                                            Text(data.data.timings.asr + ' '+''+ '(PM)',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Icon(
-                                              Icons.notifications,
-                                              color: Colors.white,
-                                            )
-                                          ]),
-                                        ]),
-                                      ],
-                                    )
-                              ),
-                             Container(
-                                margin: EdgeInsets.only(
-                                    left: 15, right: 15, top: 15),
-                                child: Table(
-                                      children: [
-                                        TableRow(children: [
-                                          Column(children: [
-                                            Text('Maghrib',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Text('',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Text(data.data.timings.maghrib + ' '+''+ '(PM)',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Icon(
-                                              Icons.notifications,
-                                              color: Colors.white,
-                                            )
-                                          ]),
-                                        ]),
-                                      ],
-                                    )
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 15, right: 15, top: 15),
-                                child:  Table(
-                                      children: [
-                                        TableRow(children: [
-                                          Column(children: [
-                                            Text('Isha',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Text('',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Text(data.data.timings.isha + ' '+''+ '(PM)',
-                                                style: TextStyle(
-                                                    color: Colors.white))
-                                          ]),
-                                          Column(children: [
-                                            Icon(
-                                              Icons.notifications,
-                                              color: Colors.white,
-                                            )
-                                          ]),
-                                        ]),
-                                      ],
-                                    )
-                              )
-                           
-                          ],
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      //  Column(
-                      //    children: [
-                      //      SizedBox(height: 20,),
-                      //      Row(
-                      //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //        children: [
-                      //          Text('Dhuhr',style: TextStyle(color: Colors.white),),
-                      //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
-                      //          Icon(Icons.notifications,color: Colors.white,)
-                      //        ],
-                      //      ),
-                      //      SizedBox(height: 20,),
-                      //      Row(
-                      //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //        children: [
-                      //          Text('Asar',style: TextStyle(color: Colors.white),),
-                      //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
-                      //          Icon(Icons.notifications,color: Colors.white,)
-                      //        ],
-                      //      ),
-                      //      SizedBox(height: 20,),
-                      //      Row(
-                      //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //        children: [
-                      //          Text('Maghrib',style: TextStyle(color: Colors.white),),
-                      //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
-                      //          Icon(Icons.notifications,color: Colors.white,)
-                      //        ],
-                      //      ),
-                      //      SizedBox(height: 20,),
-                      //      Row(
-                      //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //        children: [
-                      //          Text('Isha',style: TextStyle(color: Colors.white),),
-                      //          Text('01:30(PM)',style: TextStyle(color: Colors.white)),
-                      //          Icon(Icons.notifications,color: Colors.white,)
-                      //        ],
-                      //      ),
-                      //      SizedBox(height: 20,),
-                      //    ],
-                      //  ),
-                      //  Spacer()
-      
-                      // ],
-                    }),
-              ),
-            ]),
-          ),
+                    // ],
+                  }),
+            ),
+          ]),
         ),
-          
-      );
+      ),
+    );
   }
 
 //Round off double to specific length

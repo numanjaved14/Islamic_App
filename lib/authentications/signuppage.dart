@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:islamicapp/authentications/providers/database_services.dart';
 import 'package:islamicapp/authentications/signinpage.dart';
@@ -42,8 +43,8 @@ class _SignUpPageState extends State<SignUpPage> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
-                    "assets/back.png",
-                  ),
+              'assets/back.png',
+            ),
                   fit: BoxFit.cover)),
             child: Form(
               key: formKey,

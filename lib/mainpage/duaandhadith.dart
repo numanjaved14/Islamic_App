@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:islamicapp/mainpage/Duas/duas.dart';
 import 'package:islamicapp/mainpage/Duas/hadith.dart';
 
@@ -85,8 +86,8 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                                       borderRadius: BorderRadius.circular(20)),
                                   margin:
                                       EdgeInsets.only(top: 10, bottom: 10,left: 10,right: 10),
-                                  child: Image.asset(
-                                    'assets/ramadan.png',
+                                  child: SvgPicture.asset(
+                                    'assets/ram.svg',
                                     width: 130,
                                   ),
                                 ),
@@ -97,7 +98,6 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                                children: [
                                  Text("Dua's",style: TextStyle(color: Color(0xff555555), fontFamily: 'Gilroy',fontSize: 30,fontWeight: FontWeight.bold),),
                                  SizedBox(height: 10,),
-                                 Text('Lorem Ipsum as their default and a search for',style: TextStyle( fontFamily: 'Gilroy',),)
                                ],
                              ))
                 
@@ -129,8 +129,8 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                                       borderRadius: BorderRadius.circular(20)),
                                   margin:
                                       EdgeInsets.only(top: 10, bottom: 10,left: 10,right: 10),
-                                  child: Image.asset(
-                                    'assets/quran.png',
+                                  child: SvgPicture.asset(
+                                    'assets/qurans.svg',
                                     width: 130,
                                   ),
                                 ),
@@ -141,7 +141,6 @@ class _DuaAndHadithState extends State<DuaAndHadith> {
                                children: [
                                  Text("Hadiths",style: TextStyle(color: Color(0xff555555), fontFamily: 'Gilroy',fontSize: 30,fontWeight: FontWeight.bold),),
                                  SizedBox(height: 10,),
-                                 Text('Lorem Ipsum as their default and a search for',style: TextStyle( fontFamily: 'Gilroy',),)
                                ],
                              ))
                 

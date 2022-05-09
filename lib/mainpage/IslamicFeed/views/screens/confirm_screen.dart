@@ -71,7 +71,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     width: MediaQuery.of(context).size.width - 20,
                     child: TextInputField(
                       controller: _songController,
-                      labelText: 'Song Name',
+                      labelText: 'Sound Name',
                       icon: Icons.music_note,
                     ),
                   ),

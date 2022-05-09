@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:islamicapp/authentications/providers/database_services.dart';
 import 'package:islamicapp/authentications/signuppage.dart';
 import 'package:islamicapp/mainpage/widgets/bottom_drawee.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 
 class Signinpage extends StatefulWidget {
@@ -29,8 +29,8 @@ class _SigninpageState extends State<Signinpage> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
-                    "assets/back.png",
-                  ),
+              'assets/back.png',
+            ),
                   fit: BoxFit.cover)),
         child: Form(
           key: formKey,

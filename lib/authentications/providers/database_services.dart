@@ -12,7 +12,8 @@ import 'package:islamicapp/authentications/landing_scr.dart';
 import 'package:islamicapp/authentications/providers/models/add_commit.dart';
 import 'package:islamicapp/authentications/providers/models/add_qari_feed_model.dart';
 import 'package:islamicapp/authentications/providers/usermodel.dart';
-
+import 'package:islamicapp/authentications/signinpage.dart';
+import 'package:islamicapp/mainpage/IslamicFeed/constants.dart';
 
 class DataBaseMethods {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -113,22 +114,22 @@ class DataBaseMethods {
 //Rout for LogOut
   Route<void> _myRouteBuilder(BuildContext context, Object? arguments) {
     return MaterialPageRoute<void>(
-      builder: (BuildContext context) => LandingScreen(),
+      builder: (BuildContext context) => Signinpage(),
     );
   }
 
   singnOut(BuildContext context) async {
-    await _firebaseAuth.signOut();
-    Navigator.of(context).restorablePush(
-        (context, arguments) => _myRouteBuilder(context, arguments));
+    await _firebaseAuth.signOut().then(
+        (value) => Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => Signinpage(),
+            )));
   }
 
   Future<String> uploadImageToStorage(
     String childName,
     Uint8List file,
   ) async {
-    Reference ref =
-        _firebaseStorage.ref().child(childName).child(_auth.currentUser!.uid);
+    Reference ref = _firebaseStorage.ref().child(childName);
 
     UploadTask uploadTask = ref.putData(file);
 
@@ -194,7 +195,10 @@ class DataBaseMethods {
           // locationCo_ordinate: position,
         );
 
-        _firestore.collection('QariMosqueFeed').doc().set(
+        _firestore
+            .collection('QariMosqueFeed')
+            .doc(firebaseAuth.currentUser!.uid)
+            .set(
               qariFeed.toJson(),
             );
         res = 'Success';

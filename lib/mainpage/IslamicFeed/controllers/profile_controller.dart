@@ -27,8 +27,9 @@ class ProfileController extends GetxController {
     DocumentSnapshot userDoc =
         await firestore.collection('users').doc(_uid.value).get();
     final userData = userDoc.data()! as dynamic;
-    String name = userData['name'];
-    String profilePhoto = userData['profilePhoto'];
+    String name = userData['username'];
+    String profilePhoto =
+        'https://i.pinimg.com/736x/38/8b/90/388b90700c857a689c599fd0db97e604.jpg';
     int likes = 0;
     int followers = 0;
     int following = 0;

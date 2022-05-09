@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:islamicapp/authentications/providers/models/hadith_model.dart';
 
 import '../../apicalls/read_json.dart';
@@ -21,15 +22,16 @@ class _HadithsState extends State<Hadiths> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(
-                      "assets/back.png",
-                    ),
+                  image: Svg(
+              'assets/back.svg',
+              size: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
+            ),
                     fit: BoxFit.cover)),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -83,61 +85,67 @@ class _HadithsState extends State<Hadiths> {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(15)),
                                   margin: EdgeInsets.only(
-                                      left: 10, right: 10, top: 20),
+                                      left: 4, right: 4, top: 20),
                                   width: MediaQuery.of(this.context).size.width,
                                   // height: 200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        color: Color(0xff3F48CC),
-                                        height: 30,
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20),
-                                                child: Text(items[index]
-                                                    .groupId!
-                                                    .toString())),
-                                            Spacer(),
-                                            Icon(Icons.share,
-                                                color: Color.fromARGB(
-                                                    255, 244, 244, 245)),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Icon(Icons.play_arrow,
-                                                color: Color.fromARGB(
-                                                    255, 244, 244, 245))
-                                          ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          color: Color(0xff3F48CC),
+                                          height: 30,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 20),
+                                                  child: Text(items[index]
+                                                      .groupId!
+                                                      .toString())),
+                                              Spacer(),
+                                              Icon(Icons.share,
+                                                  color: Color.fromARGB(
+                                                      255, 244, 244, 245)),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Icon(Icons.play_arrow,
+                                                  color: Color.fromARGB(
+                                                      255, 244, 244, 245))
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(right: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Image.asset(
-                                              'assets/bismillah.png',
-                                              height: 70,
-                                            )
-                                          ],
+                                        Container(
+                                          margin: EdgeInsets.only(right: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Image(image: Svg('assets/bis.svg'),height: 70,fit: BoxFit.cover,)
+                                              // SvgSource.asset(
+                                              //   'asset/'
+                                              // //  image: 'assets/bismillah.png',
+                                              // //   height: 70,
+                                              // )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              left: 20, top: 20),
-                                          child: Text(items[index].arDua!,
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black,
-                                                  fontStyle: FontStyle.normal)))
-                                    ],
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                left: 20, top: 20),
+                                            child: Text(
+                                                items[index].enTranslation!,
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w800,
+                                                    color: Colors.black,
+                                                    fontStyle: FontStyle.normal)))
+                                      ],
+                                    ),
                                   ),
                                 );
                               }),

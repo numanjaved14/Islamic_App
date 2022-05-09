@@ -8,7 +8,9 @@ import 'package:islamicapp/authentications/providers/models/quran_text_model.dar
 import 'package:islamicapp/authentications/providers/models/test_model.dart';
 import 'package:islamicapp/constants/url_links.dart';
 import 'package:islamicapp/services/location_methods.dart';
+import '../authentications/providers/models/qari_.dart';
 import '../models/prayertimemodel.dart';
+import '../../../authentications/providers/models/surah_.dart' as surah;
 
 class ApiCalls {
 //   Future<PrayerTimeModel>prayerTimes(double latitude,double longitude,String timestamp)async{
@@ -149,6 +151,42 @@ class ApiCalls {
     while (true) {
       // await Future.delayed(refreshTime);
       yield await gettiming(address!);
+    }
+  }
+
+  //Shehzad
+  List<Qari> qarilist = [];
+
+  Future<List<Qari>> getQariList() async {
+    final url = "https://quranicaudio.com/api/qaris";
+    final res = await http.get(Uri.parse(url));
+
+    jsonDecode(res.body).forEach((element) {
+      if (qarilist.length <
+          20) // 20 is not mandatory , you can change it upto 157
+        qarilist.add(Qari.fromjson(element));
+    });
+    qarilist
+        .sort((a, b) => a.name!.compareTo(b.name!)); // sort according to A B C
+    return qarilist;
+  }
+
+  final endPointUrl = "http://api.alquran.cloud/v1/surah";
+  List<surah.Surah> list = [];
+
+  Future<List<surah.Surah>> getSurah() async {
+    var res = await http.get(Uri.parse(endPointUrl));
+    if (res.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(res.body);
+      json['data'].forEach((element) {
+        if (list.length < 114) {
+          list.add(surah.Surah.fromJson(element));
+        }
+      });
+      print('ol ${list.length}');
+      return list;
+    } else {
+      throw ("Can't get the Surah");
     }
   }
 }

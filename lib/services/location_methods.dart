@@ -2,7 +2,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:islamicapp/services/qibla_direction/flutter_qiblah.dart';
 
-
 class LocationMethods {
   Future<String?> checkLocationStatus() async {
     final locationStatus = await FlutterQiblah.checkLocationStatus();
@@ -21,6 +20,15 @@ class LocationMethods {
       //     .findAddressesFromCoordinates(location.latitude, location.longitude);
       // var first = addresses.first;
       // debugPrint(first.toString());
+    }
+    return null;
+  }
+
+  Future<Position?> checkLocationCoordinates() async {
+    final locationStatus = await FlutterQiblah.checkLocationStatus();
+    if (locationStatus.enabled) {
+      var position = await Geolocator.getCurrentPosition();
+      return position;
     }
     return null;
   }

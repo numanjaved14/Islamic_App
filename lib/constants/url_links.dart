@@ -4,7 +4,7 @@ class Strings {
   static final String quranTextUthmaniUrl =
       'http://api.alquran.cloud/v1/quran/quran-uthmani';
   static final String quranAudioUrl =
-      'http://api.alquran.cloud/v1/quran/ar.alafasy';
+      'https://api.alquran.cloud/v1/edition/format/audio';
   // static final String quranTextUrl =
   //     'http://api.alquran.cloud/v1/quran/quran-uthmani';
 }
