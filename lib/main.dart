@@ -1,8 +1,8 @@
 // import 'package:firebase_core/firebase_core.dart';
 
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:timezone/timezone.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,7 +47,6 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   // await _configureLocalTimeZone();
-
   Stripe.publishableKey =
       'pk_test_51KxapZBmHAwiQPYIuhMu1UtbLnLzL0mQAxLN2aauvJxtHTjEFI5CGfA8yptCI7iklCb1ffAnrvxyR8e8iP3B88JA00GktN5pqZ';
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
+import 'package:group_button/group_button.dart';
 
 import '../apicalls/apicall.dart';
 import '../models/prayertimemodel.dart';
@@ -17,6 +18,9 @@ class Masijid extends StatefulWidget {
 
 class _MasijidState extends State<Masijid> {
   Map<String, dynamic>? paymentIntentData;
+  final controller = GroupButtonController();
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,24 +32,21 @@ class _MasijidState extends State<Masijid> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: 48,
-                  width: 48,
-                  decoration: BoxDecoration(
-                      color: Color(0xff441009),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                      height: 48,
+                      width: 48,
+                      decoration: BoxDecoration(
+                          color: Color(0xff441009),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          )))),
             ),
           ),
           centerTitle: true,
@@ -72,14 +73,14 @@ class _MasijidState extends State<Masijid> {
           ),
           child: SafeArea(
             child: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
-                      height: 230,
-                      width: 368,
+                      // height: 230,
+                      // width: 368,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40),
                           image: DecorationImage(
@@ -109,109 +110,132 @@ class _MasijidState extends State<Masijid> {
                               ],
                             ),
                             SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  // width: MediaQuery.of(context).size.width * 2.0,
-                                  width: 50,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Colors.white,
-                                    ),
-                                    color: Colors.transparent,
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              margin:
+                                  EdgeInsets.only(top: 10, left: 10, right: 10),
+                              child: GroupButton(
+                                  options: GroupButtonOptions(
+                                    selectedBorderColor: Colors.grey,
+                                    unselectedColor: Colors.white,
+                                    selectedColor: Colors.green,
+                                    borderRadius: BorderRadius.circular(20),
+                                    selectedTextStyle:
+                                        TextStyle(color: Colors.white),
+                                    buttonHeight: 40,
+                                    buttonWidth: 50,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      '\$1',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // width: MediaQuery.of(context).size.width * 2.0,
-                                  width: 50,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Colors.white,
-                                    ),
-                                    color: Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '\$5',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // width: MediaQuery.of(context).size.width * 2.0,
-                                  width: 50,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Colors.white,
-                                    ),
-                                    color: Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '\$10',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // width: MediaQuery.of(context).size.width * 2.0,
-                                  width: 50,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Colors.white,
-                                    ),
-                                    color: Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '\$15',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  // width: MediaQuery.of(context).size.width * 2.0,
-                                  width: 50,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Colors.white,
-                                    ),
-                                    color: Colors.transparent,
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'More...',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                  controller: controller,
+                                  isRadio: true,
+                                  buttons: ['\$1', '\$5', '\$10', '\$15'],
+                                  onSelected: (selected, i, boolean) => {
+                                        debugPrint('Button #$i $selected'),
+                                        selectedIndex = i
+                                      }),
                             ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Container(
+                            //       // width: MediaQuery.of(context).size.width * 2.0,
+                            //       width: 50,
+                            //       height: 30,
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(50),
+                            //         border: Border.all(
+                            //           width: 2,
+                            //           color: Colors.white,
+                            //         ),
+                            //         color: Colors.transparent,
+                            //       ),
+                            //       child: Center(
+                            //         child: Text(
+                            //           '\$1',
+                            //           style: TextStyle(color: Colors.white),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       // width: MediaQuery.of(context).size.width * 2.0,
+                            //       width: 50,
+                            //       height: 30,
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(50),
+                            //         border: Border.all(
+                            //           width: 2,
+                            //           color: Colors.white,
+                            //         ),
+                            //         color: Colors.transparent,
+                            //       ),
+                            //       child: Center(
+                            //         child: Text(
+                            //           '\$5',
+                            //           style: TextStyle(color: Colors.white),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       // width: MediaQuery.of(context).size.width * 2.0,
+                            //       width: 50,
+                            //       height: 30,
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(50),
+                            //         border: Border.all(
+                            //           width: 2,
+                            //           color: Colors.white,
+                            //         ),
+                            //         color: Colors.transparent,
+                            //       ),
+                            //       child: Center(
+                            //         child: Text(
+                            //           '\$10',
+                            //           style: TextStyle(color: Colors.white),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       // width: MediaQuery.of(context).size.width * 2.0,
+                            //       width: 50,
+                            //       height: 30,
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(50),
+                            //         border: Border.all(
+                            //           width: 2,
+                            //           color: Colors.white,
+                            //         ),
+                            //         color: Colors.transparent,
+                            //       ),
+                            //       child: Center(
+                            //         child: Text(
+                            //           '\$15',
+                            //           style: TextStyle(color: Colors.white),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       // width: MediaQuery.of(context).size.width * 2.0,
+                            //       width: 50,
+                            //       height: 30,
+                            //       decoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(50),
+                            //         border: Border.all(
+                            //           width: 2,
+                            //           color: Colors.white,
+                            //         ),
+                            //         color: Colors.transparent,
+                            //       ),
+                            //       child: Center(
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.all(8.0),
+                            //           child: Text(
+                            //             'More...',
+                            //             style: TextStyle(color: Colors.white),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                             SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -460,7 +484,9 @@ class _MasijidState extends State<Masijid> {
                       ],
                     ),
                   ),
-                ])),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -531,7 +557,13 @@ class _MasijidState extends State<Masijid> {
   createPaymentIntent(String amount, String currency) async {
     try {
       Map<String, dynamic> body = {
-        'amount': calculateAmount('20'),
+        'amount': calculateAmount(selectedIndex == 0
+            ? '1'
+            : selectedIndex == 1
+                ? '5'
+                : selectedIndex == 2
+                    ? '10'
+                    : '15'),
         'currency': currency,
         'payment_method_types[]': 'card'
       };
