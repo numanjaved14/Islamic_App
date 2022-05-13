@@ -56,7 +56,7 @@ void main() async {
       ?.createNotificationChannel(channel);
 
   var initialzationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/launcher_icon');
+      const AndroidInitializationSettings('@mipmap/launcher_icon');
   var initializationSettings = InitializationSettings(
     android: initialzationSettingsAndroid,
   );
@@ -82,6 +82,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Gilroy',
           primarySwatch: Colors.red,

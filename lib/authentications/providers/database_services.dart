@@ -15,6 +15,8 @@ import 'package:islamicapp/authentications/providers/usermodel.dart';
 import 'package:islamicapp/authentications/signinpage.dart';
 import 'package:islamicapp/mainpage/IslamicFeed/constants.dart';
 
+import '../LogInPage.dart';
+
 class DataBaseMethods {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -114,14 +116,14 @@ class DataBaseMethods {
 //Rout for LogOut
   Route<void> _myRouteBuilder(BuildContext context, Object? arguments) {
     return MaterialPageRoute<void>(
-      builder: (BuildContext context) => Signinpage(),
+      builder: (BuildContext context) => const LogInPage(),
     );
   }
 
   singnOut(BuildContext context) async {
     await _firebaseAuth.signOut().then(
         (value) => Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => Signinpage(),
+              builder: (context) => const LogInPage(),
             )));
   }
 

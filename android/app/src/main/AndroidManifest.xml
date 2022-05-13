@@ -7,9 +7,9 @@
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
    <application
-        android:label="islamicapp"
+        android:label="Muslim Path"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:showWhenLocked="true"
             android:turnScreenOn="true"
