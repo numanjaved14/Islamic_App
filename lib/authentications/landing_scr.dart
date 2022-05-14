@@ -2,30 +2,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:islamicapp/authentications/LogInPage.dart';
+import 'package:islamicapp/authentications/SignUpScreen.dart';
 import 'package:islamicapp/authentications/providers/user_provider.dart';
 import 'package:islamicapp/authentications/signinpage.dart';
 import 'package:provider/provider.dart';
 
-
 import '../mainpage/widgets/bottom_drawee.dart';
 
 class LandingScreen extends StatefulWidget {
-   LandingScreen({ Key? key }) : super(key: key);
+  LandingScreen({Key? key}) : super(key: key);
 
   @override
   State<LandingScreen> createState() => _LandingScreenState();
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-Future<FirebaseApp> intialize = Firebase.initializeApp();
+  Future<FirebaseApp> intialize = Firebase.initializeApp();
 
-@override
+  @override
   void initState() {
     super.initState();
     getData();
   }
 
-  getData()async{
+  getData() async {
     UserProvider _userProvider = Provider.of(context, listen: false);
     await _userProvider.refreshUser();
   }
@@ -37,8 +38,10 @@ Future<FirebaseApp> intialize = Firebase.initializeApp();
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Scaffold(
-              body: Text("${snapshot.error}",style: GoogleFonts.lato(fontStyle: FontStyle.italic),
-),
+              body: Text(
+                "${snapshot.error}",
+                style: GoogleFonts.lato(fontStyle: FontStyle.italic),
+              ),
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
@@ -50,11 +53,14 @@ Future<FirebaseApp> intialize = Firebase.initializeApp();
                       body: Text("${streamsnapshot.error}"),
                     );
                   }
-                  if(streamsnapshot.connectionState == ConnectionState.active){
+                  if (streamsnapshot.connectionState ==
+                      ConnectionState.active) {
                     User? user = streamsnapshot.data;
-                    if(user==null){
-                      return Signinpage();
-                    }else{
+                    if (user == null) {
+                      // return Signinpage();
+                      return const LogInPage();
+                      // return const SignUpScreen();
+                    } else {
                       return MainScreen();
                     }
                   }
@@ -65,17 +71,16 @@ Future<FirebaseApp> intialize = Firebase.initializeApp();
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Checking Authnetication....',
-                            
+                            'Checking Authentication....',
                           ),
-                           CircularProgressIndicator(),
+                          CircularProgressIndicator(),
                         ],
                       ),
                     ),
                   );
                 });
           }
-         
+
           return Scaffold(
             body: Center(
               child: Column(
@@ -83,10 +88,9 @@ Future<FirebaseApp> intialize = Firebase.initializeApp();
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
-                    'INITIALZATION...',
-                 
+                    'Initializing...',
                   ),
-                   CircularProgressIndicator()
+                  CircularProgressIndicator()
                 ],
               ),
             ),
